@@ -1,8 +1,8 @@
-defmodule Zongora.AssemblageView do
-  use Zongora.Web, :view
+defmodule Celeste.AssemblageView do
+  use Celeste.Web, :view
 
-  alias Zongora.Assemblage
-  alias Zongora.File, as: ZFile
+  alias Celeste.Assemblage
+  alias Celeste.File, as: ZFile
 
   def wikipedia_path(topic) do
     "https://en.wikipedia.org/wiki/#{String.replace(topic, " ", "_")}"
@@ -31,7 +31,7 @@ defmodule Zongora.AssemblageView do
   end
 
   def composed_by(conn, composition) do
-    composers = Zongora.Assemblage.parent_assemblages_of_kind(composition, "composed") |> Zongora.Repo.all
+    composers = Celeste.Assemblage.parent_assemblages_of_kind(composition, "composed") |> Celeste.Repo.all
 
     who = [
       "composed by ",

@@ -1,8 +1,8 @@
 <%= with recording = @conn.assigns[:assemblage] do %>
-  <%= for composition <- Zongora.Assemblage.parent_assemblages_of_kind(recording, "recorded") |> Zongora.Repo.all do %>
+  <%= for composition <- Celeste.Assemblage.parent_assemblages_of_kind(recording, "recorded") |> Celeste.Repo.all do %>
     <h1><%= full_assemblage_name(@conn, composition, link: true) %></h1>
 
-    <%= with composers = Zongora.Assemblage.parent_assemblages_of_kind(composition, "composed") |> Zongora.Repo.all do %>
+    <%= with composers = Celeste.Assemblage.parent_assemblages_of_kind(composition, "composed") |> Celeste.Repo.all do %>
       <h3>composed by <%= composers_list(@conn, composers) %></h3>
     <% end %>
   <% end %>

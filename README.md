@@ -1,4 +1,4 @@
-# Zongora
+# Celeste
 
 To start your Phoenix app:
 

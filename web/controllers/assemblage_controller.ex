@@ -1,17 +1,17 @@
-defmodule Zongora.AssemblageController do
-  use Zongora.Web, :controller
+defmodule Celeste.AssemblageController do
+  use Celeste.Web, :controller
 
   require Ecto.Query
 
   def composers(conn, _) do
     assemblages =
-      Zongora.Repo.all(
-        Ecto.Query.from a in Zongora.Assemblage,
+      Celeste.Repo.all(
+        Ecto.Query.from a in Celeste.Assemblage,
           where: a.kind == "person",
           join: aa in "assemblies",
           on: aa.assemblage_id == a.id,
           where: aa.kind == "composed",
-          join: c in Zongora.Assemblage,
+          join: c in Celeste.Assemblage,
           on: aa.child_assemblage_id == c.id,
           where: c.kind == "composition",
           group_by: [a.id],
@@ -19,18 +19,18 @@ defmodule Zongora.AssemblageController do
       )
 
     conn
-    |> Zongora.AssemblageController.shallow_assemblages("Composers", assemblages)
+    |> Celeste.AssemblageController.shallow_assemblages("Composers", assemblages)
   end
 
   def show(conn, %{"id" => id}) do
     query =
-      from a in Zongora.Assemblage,
+      from a in Celeste.Assemblage,
       preload: [
         :tags,
-        files: ^from(a in Zongora.File, order_by: :path)
+        files: ^from(a in Celeste.File, order_by: :path)
       ]
 
-    assemblage = Zongora.Repo.get!(query, id)
+    assemblage = Celeste.Repo.get!(query, id)
 
     conn
     |> assign(:assemblage, assemblage)

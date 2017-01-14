@@ -1,14 +1,14 @@
-defmodule Zongora.Endpoint do
-  use Phoenix.Endpoint, otp_app: :zongora
+defmodule Celeste.Endpoint do
+  use Phoenix.Endpoint, otp_app: :celeste
 
-  socket "/socket", Zongora.UserSocket
+  socket "/socket", Celeste.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :zongora, gzip: false,
+    at: "/", from: :celeste, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
@@ -35,8 +35,8 @@ defmodule Zongora.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_zongora_key",
+    key: "_celeste_key",
     signing_salt: "uFKoiOZ1"
 
-  plug Zongora.Router
+  plug Celeste.Router
 end

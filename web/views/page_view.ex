@@ -1,3 +1,3 @@
-defmodule Zongora.PageView do
-  use Zongora.Web, :view
+defmodule Celeste.PageView do
+  use Celeste.Web, :view
 end

@@ -1,8 +1,8 @@
-defmodule Zongora.FileController do
-  use Zongora.Web, :controller
+defmodule Celeste.FileController do
+  use Celeste.Web, :controller
 
-  alias Zongora.Repo
-  alias Zongora.File, as: ZFile
+  alias Celeste.Repo
+  alias Celeste.File, as: ZFile
 
   def show(conn, %{"id" => base16_sha256}) do
     sha256 =

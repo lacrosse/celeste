@@ -1,7 +1,7 @@
-defmodule Zongora.TagTest do
-  use Zongora.ModelCase
+defmodule Celeste.TagTest do
+  use Celeste.ModelCase
 
-  alias Zongora.Tag
+  alias Celeste.Tag
 
   @valid_attrs %{key: "some content", value: "some content"}
   @invalid_attrs %{}

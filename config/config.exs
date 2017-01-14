@@ -1,20 +1,14 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
 use Mix.Config
 
-# General application configuration
-config :zongora,
-  ecto_repos: [Zongora.Repo]
+config :celeste,
+  ecto_repos: [Celeste.Repo]
 
 # Configures the endpoint
-config :zongora, Zongora.Endpoint,
+config :celeste, Celeste.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "zA/x5XOGXIXQFxlemUvFZevjakIUF/1DceVD7YBWTUxRdDC1ZCEUVfkCPyCaU9tv",
-  render_errors: [view: Zongora.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Zongora.PubSub,
+  render_errors: [view: Celeste.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: Celeste.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 config :logger, :console,

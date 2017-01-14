@@ -1,8 +1,8 @@
 defmodule Cyclosa do
   require Ecto.Query
 
-  alias Zongora.File, as: ZFile
-  alias Zongora.{Assemblage, Repo}
+  alias Celeste.File, as: ZFile
+  alias Celeste.{Assemblage, Repo}
 
   @kbytes 10
   @mimes MapSet.new(~w|

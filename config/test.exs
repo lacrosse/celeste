@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :zongora, Zongora.Endpoint,
+config :celeste, Celeste.Endpoint,
   http: [port: 4001],
   server: false
 
@@ -10,10 +10,10 @@ config :zongora, Zongora.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :zongora, Zongora.Repo,
+config :celeste, Celeste.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "zongora_test",
+  database: "celeste_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

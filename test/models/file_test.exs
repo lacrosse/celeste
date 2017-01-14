@@ -1,7 +1,7 @@
-defmodule Zongora.FileTest do
-  use Zongora.ModelCase
+defmodule Celeste.FileTest do
+  use Celeste.ModelCase
 
-  alias Zongora.File
+  alias Celeste.File
 
   @valid_attrs %{mime: "some content", path: "some content", sha256: "some content"}
   @invalid_attrs %{}

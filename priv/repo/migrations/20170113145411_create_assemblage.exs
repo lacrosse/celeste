@@ -1,4 +1,4 @@
-defmodule Zongora.Repo.Migrations.CreateAssemblage do
+defmodule Celeste.Repo.Migrations.CreateAssemblage do
   use Ecto.Migration
 
   def change do

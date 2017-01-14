@@ -1,4 +1,4 @@
-defmodule Zongora.Repo.Migrations.CreateFile do
+defmodule Celeste.Repo.Migrations.CreateFile do
   use Ecto.Migration
 
   def change do

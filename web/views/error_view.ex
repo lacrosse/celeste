@@ -1,5 +1,5 @@
-defmodule Zongora.ErrorView do
-  use Zongora.Web, :view
+defmodule Celeste.ErrorView do
+  use Celeste.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

@@ -1,10 +1,10 @@
-defmodule Zongora.Tag do
-  use Zongora.Web, :model
+defmodule Celeste.Tag do
+  use Celeste.Web, :model
 
   schema "tags" do
     field :key, :string
     field :value, :string
-    belongs_to :assemblage, Zongora.Assemblage
+    belongs_to :assemblage, Celeste.Assemblage
 
     timestamps()
   end

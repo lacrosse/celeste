@@ -1,4 +1,4 @@
-defmodule Zongora.Repo.Migrations.CreateTag do
+defmodule Celeste.Repo.Migrations.CreateTag do
   use Ecto.Migration
 
   def change do

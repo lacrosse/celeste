@@ -1,7 +1,7 @@
-defmodule Zongora.Assemblage do
-  use Zongora.Web, :model
+defmodule Celeste.Assemblage do
+  use Celeste.Web, :model
 
-  alias Zongora.{Repo, Tag}
+  alias Celeste.{Repo, Tag}
 
   schema "assemblages" do
     has_many :tags, Tag
@@ -13,7 +13,7 @@ defmodule Zongora.Assemblage do
       join_through: "assemblies",
       join_keys: [assemblage_id: :id, child_assemblage_id: :id],
       unique: true
-    many_to_many :files, Zongora.File,
+    many_to_many :files, Celeste.File,
       join_through: "assemblages_files"
 
     field :name, :string

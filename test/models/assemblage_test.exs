@@ -1,7 +1,7 @@
-defmodule Zongora.AssemblageTest do
-  use Zongora.ModelCase
+defmodule Celeste.AssemblageTest do
+  use Celeste.ModelCase
 
-  alias Zongora.Assemblage
+  alias Celeste.Assemblage
 
   @valid_attrs %{name: "some content"}
   @invalid_attrs %{}

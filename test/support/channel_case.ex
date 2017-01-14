@@ -1,4 +1,4 @@
-defmodule Zongora.ChannelCase do
+defmodule Celeste.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -20,22 +20,22 @@ defmodule Zongora.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-      alias Zongora.Repo
+      alias Celeste.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
 
 
       # The default endpoint for testing
-      @endpoint Zongora.Endpoint
+      @endpoint Celeste.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Zongora.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Celeste.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Zongora.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Celeste.Repo, {:shared, self()})
     end
 
     :ok

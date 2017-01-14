@@ -1,8 +1,8 @@
-defmodule Zongora.File do
-  use Zongora.Web, :model
+defmodule Celeste.File do
+  use Celeste.Web, :model
 
   schema "files" do
-    many_to_many :assemblages, Zongora.Assemblage, join_through: "assemblages_files"
+    many_to_many :assemblages, Celeste.Assemblage, join_through: "assemblages_files"
 
     field :path, :string
     field :mime, :string

@@ -1,12 +1,12 @@
-defmodule Zongora.Web do
+defmodule Celeste.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Zongora.Web, :controller
-      use Zongora.Web, :view
+      use Celeste.Web, :controller
+      use Celeste.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -30,12 +30,12 @@ defmodule Zongora.Web do
     quote do
       use Phoenix.Controller
 
-      alias Zongora.Repo
+      alias Celeste.Repo
       import Ecto
       import Ecto.Query
 
-      import Zongora.Router.Helpers
-      import Zongora.Gettext
+      import Celeste.Router.Helpers
+      import Celeste.Gettext
     end
   end
 
@@ -49,9 +49,9 @@ defmodule Zongora.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Zongora.Router.Helpers
-      import Zongora.ErrorHelpers
-      import Zongora.Gettext
+      import Celeste.Router.Helpers
+      import Celeste.ErrorHelpers
+      import Celeste.Gettext
     end
   end
 
@@ -65,10 +65,10 @@ defmodule Zongora.Web do
     quote do
       use Phoenix.Channel
 
-      alias Zongora.Repo
+      alias Celeste.Repo
       import Ecto
       import Ecto.Query
-      import Zongora.Gettext
+      import Celeste.Gettext
     end
   end
 

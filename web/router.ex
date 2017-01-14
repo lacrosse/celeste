@@ -1,5 +1,5 @@
-defmodule Zongora.Router do
-  use Zongora.Web, :router
+defmodule Celeste.Router do
+  use Celeste.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -9,12 +9,12 @@ defmodule Zongora.Router do
     plug :put_secure_browser_headers
   end
 
-  scope "/", Zongora do
+  scope "/", Celeste do
     pipe_through [:browser]
     get "/", PageController, :index
   end
 
-  scope "/", Zongora do
+  scope "/", Celeste do
     pipe_through [:browser]
 
     resources "/assemblages", AssemblageController, only: [:show]

@@ -1,5 +1,5 @@
-defmodule Zongora.LayoutView do
-  use Zongora.Web, :view
+defmodule Celeste.LayoutView do
+  use Celeste.Web, :view
 
   def title(conn) do
     case conn.assigns[:page_title] do

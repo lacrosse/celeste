@@ -2,7 +2,7 @@
   <h1><%= full_assemblage_name(@conn, composition) %></h1>
   <h3><%= composed_by(@conn, composition) %></h3>
 
-  <%= with composers = Zongora.Assemblage.parent_assemblages_of_kind(composition, "reconstructed") |> Zongora.Repo.all do %>
+  <%= with composers = Celeste.Assemblage.parent_assemblages_of_kind(composition, "reconstructed") |> Celeste.Repo.all do %>
     <%= if Enum.any?(composers) do %>
     <h4>reconstructed by <%= composers_list(@conn, composers) %></h4>
     <% end %>
@@ -14,7 +14,7 @@
     </small>
   <% end %>
 
-  <%= with recordings = Zongora.Assemblage.child_assemblages_of_kind(composition, "recorded") |> Zongora.Repo.all do %>
+  <%= with recordings = Celeste.Assemblage.child_assemblages_of_kind(composition, "recorded") |> Celeste.Repo.all do %>
     <%= if Enum.any?(recordings) do %>
       <table class="table">
         <thead>

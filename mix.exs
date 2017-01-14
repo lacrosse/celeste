@@ -1,8 +1,8 @@
-defmodule Zongora.Mixfile do
+defmodule Celeste.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :zongora,
+    [app: :celeste,
      version: "0.0.1",
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
@@ -14,7 +14,7 @@ defmodule Zongora.Mixfile do
   end
 
   def application do
-    [mod: {Zongora, []},
+    [mod: {Celeste, []},
      extra_applications: [:logger]]
   end
 
@@ -30,6 +30,7 @@ defmodule Zongora.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev, runtime: false},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
+     {:guardian, "~> 0.14"},
      {:mime, "~> 1.0"},
      {:id3v2, "~> 0.1.0"}]
   end

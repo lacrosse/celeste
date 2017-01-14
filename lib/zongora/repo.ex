@@ -1,3 +1,3 @@
-defmodule Zongora.Repo do
-  use Ecto.Repo, otp_app: :zongora
+defmodule Celeste.Repo do
+  use Ecto.Repo, otp_app: :celeste
 end

@@ -1,5 +1,5 @@
-defmodule Zongora.PageControllerTest do
-  use Zongora.ConnCase
+defmodule Celeste.PageControllerTest do
+  use Celeste.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

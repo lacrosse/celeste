@@ -1,4 +1,4 @@
-defmodule Zongora.ConnCase do
+defmodule Celeste.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -20,23 +20,23 @@ defmodule Zongora.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      alias Zongora.Repo
+      alias Celeste.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
 
-      import Zongora.Router.Helpers
+      import Celeste.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint Zongora.Endpoint
+      @endpoint Celeste.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Zongora.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Celeste.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Zongora.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Celeste.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

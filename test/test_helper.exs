@@ -1,4 +1,4 @@
 ExUnit.start
 
-Ecto.Adapters.SQL.Sandbox.mode(Zongora.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Celeste.Repo, :manual)
 

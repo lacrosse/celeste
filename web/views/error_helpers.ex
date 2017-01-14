@@ -1,4 +1,4 @@
-defmodule Zongora.ErrorHelpers do
+defmodule Celeste.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -32,9 +32,9 @@ defmodule Zongora.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(Zongora.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(Celeste.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(Zongora.Gettext, "errors", msg, opts)
+      Gettext.dgettext(Celeste.Gettext, "errors", msg, opts)
     end
   end
 end

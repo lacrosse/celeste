@@ -1,5 +1,5 @@
-defmodule Zongora.PageController do
-  use Zongora.Web, :controller
+defmodule Celeste.PageController do
+  use Celeste.Web, :controller
 
   def index(conn, _) do
     conn
