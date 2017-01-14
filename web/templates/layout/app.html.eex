@@ -18,9 +18,8 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills">
-            <li>
-              <%= link "Main", to: assemblage_path(@conn, :composers) %>
-            </li>
+            <li><%= link "Home", to: page_path(@conn, :index) %></li>
+            <li><%= link "Composers", to: assemblage_path(@conn, :composers) %></li>
           </ul>
         </nav>
       </header>

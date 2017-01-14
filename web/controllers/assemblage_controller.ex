@@ -35,7 +35,7 @@ defmodule Zongora.AssemblageController do
     conn
     |> assign(:assemblage, assemblage)
     |> assign(:page_title, assemblage.name)
-    |> render "#{assemblage.kind}.html"
+    |> render("#{assemblage.kind}.html")
   end
 
   def shallow_assemblages(conn, name, assemblages) do
@@ -48,6 +48,6 @@ defmodule Zongora.AssemblageController do
 
     conn
     |> assign(:assemblage, assemblage)
-    |> render "show.html"
+    |> render("show.html")
   end
 end

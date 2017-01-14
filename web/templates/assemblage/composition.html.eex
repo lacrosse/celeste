@@ -10,7 +10,7 @@
 
   <%= if tags = composition.tags do %>
     <small>
-      tags: <%= tags_row(composition.tags, "default") %>
+      tags: <%= tags_row(tags, "default") %>
     </small>
   <% end %>
 
