@@ -1,0 +1,26 @@
+<%= with composition = @conn.assigns[:assemblage] do %>
+<h1><%= composition.name %></h1>
+
+<%= with composers = Zongora.Assemblage.parent_assemblages_of_kind(composition, "composed") do %>
+<h3>composed by <%= composers_list(@conn, composers) %></h3>
+<% end %>
+
+  <%= with recordings = Zongora.Assemblage.child_assemblages_of_kind(composition, "recorded") |> Zongora.Repo.all do %>
+  <%= if Enum.any?(recordings) do %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Recordings</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for recording <- recordings do %>
+      <tr>
+        <td><%= link recording.name, to: assemblage_path(@conn, :show, recording.id) %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+  <% end %>
+<% end %>

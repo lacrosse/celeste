@@ -1,0 +1,26 @@
+<%= with assemblage = @conn.assigns[:assemblage] do %>
+<h1><%= assemblage.name %></h1>
+
+<p>
+  <%= link "Wikipedia", to: wikipedia_path(assemblage.name), target: :blank %>
+</p>
+
+  <%= with compositions = Zongora.Assemblage.child_assemblages_of_kind(assemblage, "composed") |> Zongora.Repo.all do %>
+  <%= if Enum.any?(compositions) do %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Compositions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for composition <- compositions do %>
+      <tr>
+        <td><%= link composition.name, to: assemblage_path(@conn, :show, composition.id) %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% end %>
+  <% end %>
+<% end %>

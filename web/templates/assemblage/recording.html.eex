@@ -1,0 +1,31 @@
+<%= with recording = @conn.assigns[:assemblage] do %>
+  <%= for composition <- Zongora.Assemblage.parent_assemblages_of_kind(recording, "recorded") do %>
+    <h1><%= link composition.name, to: assemblage_path(@conn, :show, composition.id) %></h1>
+
+    <%= with composers = Zongora.Assemblage.parent_assemblages_of_kind(composition, "composed") do %>
+      <h3>composed by <%= composers_list(@conn, composers) %></h3>
+    <% end %>
+  <% end %>
+
+  <p><%= recording.name %></p>
+
+  <%= with files = Zongora.Repo.preload(recording, :files).files do %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Files</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for file <- recording.files do %>
+          <tr>
+            <td>
+              <strong><%= Path.basename(file.path) %></strong> (<%= file.ctime %>)<br>
+              <span style="font-family: monospace"><%= file.sha256 |> Base.encode16(case: :lower) %></span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>
