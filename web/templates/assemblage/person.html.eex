@@ -1,26 +1,49 @@
 <%= with assemblage = @conn.assigns[:assemblage] do %>
-<h1><%= assemblage.name %></h1>
+  <h1><%= assemblage.name %></h1>
 
-<p>
-  <%= link "Wikipedia", to: wikipedia_path(assemblage.name), target: :blank %>
-</p>
+  <p>
+    <%= link "Wikipedia", to: wikipedia_path(assemblage.name), target: :blank %>
+  </p>
+
+  <%= render @view_module, "_files.html", conn: @conn, files: assemblage.files %>
 
   <%= with compositions = Zongora.Assemblage.child_assemblages_of_kind(assemblage, "composed") |> Zongora.Repo.all do %>
-  <%= if Enum.any?(compositions) do %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Compositions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for composition <- compositions do %>
-      <tr>
-        <td><%= link composition.name, to: assemblage_path(@conn, :show, composition.id) %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <%= if Enum.any?(compositions) do %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Compositions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for composition <- compositions do %>
+          <tr>
+            <td>
+              <%= composition_row(@conn, composition) %>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
   <% end %>
+
+  <%= with reconstructions = Zongora.Assemblage.child_assemblages_of_kind(assemblage, "reconstructed") |> Zongora.Repo.all do %>
+    <%= if Enum.any?(reconstructions) do %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Reconstructions of other composers' works</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for reconstruction <- reconstructions do %>
+          <tr>
+            <td><%= link reconstruction.name, to: assemblage_path(@conn, :show, reconstruction.id) %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
   <% end %>
 <% end %>

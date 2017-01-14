@@ -26,6 +26,7 @@ defmodule Zongora.AssemblageController do
     query =
       from a in Zongora.Assemblage,
       preload: [
+        :tags,
         files: ^from(a in Zongora.File, order_by: :path)
       ]
 

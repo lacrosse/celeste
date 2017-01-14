@@ -21,4 +21,6 @@ defmodule Zongora.File do
     |> cast(params, [:path, :mime, :size, :sha256, :seen_at, :atime, :mtime, :ctime])
     |> validate_required([:path, :mime, :size, :sha256, :seen_at, :atime, :mtime, :ctime])
   end
+
+  def link_param(file), do: file.sha256 |> Base.encode16(case: :lower)
 end

@@ -1,26 +1,37 @@
 <%= with composition = @conn.assigns[:assemblage] do %>
-<h1><%= composition.name %></h1>
+  <h1><%= full_assemblage_name(@conn, composition) %></h1>
+  <h3><%= composed_by(@conn, composition) %></h3>
 
-<%= with composers = Zongora.Assemblage.parent_assemblages_of_kind(composition, "composed") do %>
-<h3>composed by <%= composers_list(@conn, composers) %></h3>
-<% end %>
+  <%= with composers = Zongora.Assemblage.parent_assemblages_of_kind(composition, "reconstructed") |> Zongora.Repo.all do %>
+    <%= if Enum.any?(composers) do %>
+    <h4>reconstructed by <%= composers_list(@conn, composers) %></h4>
+    <% end %>
+  <% end %>
+
+  <%= if tags = composition.tags do %>
+    <small>
+      tags: <%= tags_row(composition.tags, "default") %>
+    </small>
+  <% end %>
 
   <%= with recordings = Zongora.Assemblage.child_assemblages_of_kind(composition, "recorded") |> Zongora.Repo.all do %>
-  <%= if Enum.any?(recordings) do %>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Recordings</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for recording <- recordings do %>
-      <tr>
-        <td><%= link recording.name, to: assemblage_path(@conn, :show, recording.id) %></td>
-      </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <%= if Enum.any?(recordings) do %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Recordings</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for recording <- recordings do %>
+            <tr>
+              <td><%= link recording.name, to: assemblage_path(@conn, :show, recording.id) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
   <% end %>
-  <% end %>
+
+  <%= render @view_module, "_files.html", files: composition.files %>
 <% end %>

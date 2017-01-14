@@ -135,6 +135,39 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE tags (
+    id integer NOT NULL,
+    key character varying(255),
+    value character varying(255),
+    assemblage_id integer,
+    inserted_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
+
+
+--
 -- Name: assemblages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -146,6 +179,13 @@ ALTER TABLE ONLY assemblages ALTER COLUMN id SET DEFAULT nextval('assemblages_id
 --
 
 ALTER TABLE ONLY files ALTER COLUMN id SET DEFAULT nextval('files_id_seq'::regclass);
+
+
+--
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
 
 
 --
@@ -170,6 +210,14 @@ ALTER TABLE ONLY files
 
 ALTER TABLE ONLY schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -222,6 +270,13 @@ CREATE INDEX files_sha256_index ON files USING btree (sha256);
 
 
 --
+-- Name: tags_assemblage_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX tags_assemblage_id_index ON tags USING btree (assemblage_id);
+
+
+--
 -- Name: assemblies assemblages_assemblages_assemblage_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -254,8 +309,16 @@ ALTER TABLE ONLY assemblages_files
 
 
 --
+-- Name: tags tags_assemblage_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY tags
+    ADD CONSTRAINT tags_assemblage_id_fkey FOREIGN KEY (assemblage_id) REFERENCES assemblages(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046);
+INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046), (20170114111539);
 

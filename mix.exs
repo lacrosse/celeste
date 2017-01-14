@@ -35,7 +35,8 @@ defmodule Zongora.Mixfile do
   end
 
   defp aliases do
-    ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+    ["ecto.migrate": ["ecto.migrate", "ecto.dump"],
+     "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
      "ecto.reset": ["ecto.drop", "ecto.setup"]]
   end
 end

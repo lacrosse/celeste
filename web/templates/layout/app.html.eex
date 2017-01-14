@@ -17,7 +17,7 @@
     <div class="container">
       <header class="header">
         <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
+          <ul class="nav nav-pills">
             <li>
               <%= link "Main", to: assemblage_path(@conn, :composers) %>
             </li>

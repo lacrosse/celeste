@@ -17,6 +17,7 @@ defmodule Zongora.Router do
     pipe_through :browser # Use the default browser stack
 
     resources "/assemblages", AssemblageController, only: [:show]
+    resources "/files", FileController, only: [:show]
 
     get "/composers", AssemblageController, :composers
   end
