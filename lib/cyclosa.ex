@@ -103,8 +103,7 @@ defmodule Cyclosa do
         case File.stat(path) do
           {:ok, value} -> value
           {:error, error} ->
-            IO.puts "Error! #{path} #{error}"
-            raise :die
+            raise "Error! #{path} #{error}"
         end
 
       {path, %{
