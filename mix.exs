@@ -30,9 +30,11 @@ defmodule Celeste.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev, runtime: false},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
+     {:comeonin, "~> 3.0"},
      {:guardian, "~> 0.14"},
      {:mime, "~> 1.0"},
-     {:id3v2, "~> 0.1.0"}]
+     {:id3v2, "~> 0.1.0"},
+     {:erl_id3v2, github: "brendonh/erl_id3v2"}]
   end
 
   defp aliases do

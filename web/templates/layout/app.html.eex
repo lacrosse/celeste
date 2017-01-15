@@ -9,29 +9,75 @@
 
     <title><%= title(@conn) %></title>
     <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700&amp;subset=cyrillic" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills">
-            <li><%= link "Home", to: page_path(@conn, :index) %></li>
-            <li><%= link "Composers", to: assemblage_path(@conn, :composers) %></li>
-          </ul>
-        </nav>
-      </header>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link to: page_path(@conn, :index), class: "navbar-brand" do %>
+            <i class="fa fa-music fa-fw" aria-hidden="true"></i> Celeste
+          <% end %>
+        </div>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <div class="collapse navbar-collapse">
+          <%= if Guardian.Plug.authenticated?(@conn) do %>
+            <ul class="nav navbar-nav">
+              <li>
+                <%= link to: assemblage_path(@conn, :composers) do %>
+                  Composers
+                <% end %>
+              </li>
+              <li><%= link "New Assemblage", to: assemblage_path(@conn, :new) %></li>
+            </ul>
+          <% end %>
+
+          <ul class="nav navbar-nav navbar-right">
+            <%= if user = Guardian.Plug.current_resource(@conn) do %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i> <%= user.username %>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <%= link to: session_path(@conn, :delete), method: :delete do %>
+                    <i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> Sign Out
+                    <% end %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li>
+                <%= link to: session_path(@conn, :new) do %>
+                  <i class="fa fa-sign-in fa-fw" aria-hidden="true"></i> Sign In
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <%= if flash = get_flash(@conn, :info) do %>
+        <p class="alert alert-info" role="alert"><%= flash %></p>
+      <% end %>
+      <%= if flash = get_flash(@conn, :error) do %>
+        <p class="alert alert-danger" role="alert"><%= flash %></p>
+      <% end %>
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
 
-    </div> <!-- /container -->
+    </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

@@ -22,7 +22,7 @@ exports.config = {
     stylesheets: {
       joinTo: 'css/app.css',
       order: {
-        after: ['web/static/css/app.css'], // concat app.css last
+        after: ['web/static/css/app.css'],
       },
     },
     templates: {
@@ -55,6 +55,18 @@ exports.config = {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/],
     },
+
+    sass: {
+      options: {
+        precision: 8,
+      },
+    },
+
+    copycat: {
+      fonts: ['node_modules/font-awesome/fonts'],
+      verbose: true,
+      onlyChanged: true,
+    },
   },
 
   modules: {
@@ -65,5 +77,9 @@ exports.config = {
 
   npm: {
     enabled: true,
+    globals: {
+      $: 'jquery',
+      jQuery: 'jquery',
+    },
   },
 };

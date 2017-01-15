@@ -1,19 +1,14 @@
-<%= with recording = @conn.assigns[:assemblage] do %>
-  <%= for composition <- Celeste.Assemblage.parent_assemblages_of_kind(recording, "recorded") |> Celeste.Repo.all do %>
-    <h1><%= full_assemblage_name(@conn, composition, link: true) %></h1>
-
-    <%= with composers = Celeste.Assemblage.parent_assemblages_of_kind(composition, "composed") |> Celeste.Repo.all do %>
-      <h3>composed by <%= composers_list(@conn, composers) %></h3>
-    <% end %>
-  <% end %>
-
-  <p><%= recording.name %></p>
-
-  <%= if Enum.any?(tags = recording.tags) do %>
-    <small>
-      tags: <%= tags_row(recording.tags, "default") %>
-    </small>
-  <% end %>
-
-  <%= render @view_module, "_files.html", files: recording.files %>
+<%= for composition <- Celeste.Assemblage.parent_assemblages_of_kind(@assemblage, "recorded", "composition") |> Celeste.Repo.all do %>
+  <h1><%= full_assemblage_name(@conn, composition, link: true) %></h1>
+  <h3><%= composed_by(@conn, composition) %></h3>
 <% end %>
+
+<h4>recorded by <%= @assemblage.name %></h4>
+
+<%= if Enum.any?(tags = @assemblage.tags) do %>
+  <small>
+    tags: <%= tags_row(tags, "default") %>
+  </small>
+<% end %>
+
+<%= render @view_module, "_files.html", conn: @conn, files: @assemblage.files %>

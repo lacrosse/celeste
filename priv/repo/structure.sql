@@ -83,8 +83,28 @@ ALTER SEQUENCE assemblages_id_seq OWNED BY assemblages.id;
 CREATE TABLE assemblies (
     assemblage_id integer,
     child_assemblage_id integer,
-    kind character varying(255)
+    kind character varying(255),
+    id integer NOT NULL
 );
+
+
+--
+-- Name: assemblies_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE assemblies_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: assemblies_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE assemblies_id_seq OWNED BY assemblies.id;
 
 
 --
@@ -101,7 +121,8 @@ CREATE TABLE files (
     atime timestamp without time zone,
     mtime timestamp without time zone,
     ctime timestamp without time zone,
-    inserted_at timestamp without time zone NOT NULL
+    inserted_at timestamp without time zone NOT NULL,
+    id3v2 jsonb
 );
 
 
@@ -168,10 +189,49 @@ ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    username character varying(255) NOT NULL,
+    password_hash character varying(255) NOT NULL,
+    inserted_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
 -- Name: assemblages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY assemblages ALTER COLUMN id SET DEFAULT nextval('assemblages_id_seq'::regclass);
+
+
+--
+-- Name: assemblies id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY assemblies ALTER COLUMN id SET DEFAULT nextval('assemblies_id_seq'::regclass);
 
 
 --
@@ -189,11 +249,26 @@ ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclas
 
 
 --
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
 -- Name: assemblages assemblages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY assemblages
     ADD CONSTRAINT assemblages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: assemblies assemblies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY assemblies
+    ADD CONSTRAINT assemblies_pkey PRIMARY KEY (id);
 
 
 --
@@ -218,6 +293,14 @@ ALTER TABLE ONLY schema_migrations
 
 ALTER TABLE ONLY tags
     ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
@@ -320,5 +403,5 @@ ALTER TABLE ONLY tags
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046), (20170114111539);
+INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046), (20170114111539), (20170114185651), (20170114230607), (20170115130531);
 
