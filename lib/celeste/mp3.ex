@@ -1,114 +1,71 @@
 defmodule Celeste.MP3 do
-  use Bitwise
-
-  @header_size 10
   @stream_chunk 10240
-  @id3v2_data %{id_bytes: [], version_bytes: [], flags_byte: nil, frames_size_bytes: []}
 
-  def id3v2(path) do
-    data = path |> path_to_data()
+  def id3(path) do
+    data =
+      path
+      |> to_bytestream()
+      |> reduce_bytestream_to_id3()
 
-    frames =
-      data.frames_bytes
-      |> :binary.list_to_bin()
-      |> frames_binary_to_frames_list()
-      |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
-
-    data
-    |> Map.delete(:frames_bytes)
-    |> Map.put(:frames, frames)
+    if Map.has_key?(data, :error),
+    do: {:error, data},
+    else: {:ok, data}
   end
 
-  defp path_to_data(path) do
+  defp to_bytestream(path) do
     path
     |> File.stream!([], @stream_chunk)
     |> Stream.flat_map(&:binary.bin_to_list/1)
-    |> Stream.transform({0, @id3v2_data}, fn byte, acc ->
-      case acc do
-        {idx, data} when idx in (0..2) ->
-          # Read header
-          {[], {idx + 1, %{data | id_bytes: data.id_bytes ++ [byte]}}}
-        {idx, data} when idx in (3..4) ->
-          {[], {idx + 1, %{data | version_bytes: data.version_bytes ++ [byte]}}}
-        {idx, data} when idx == 5 ->
-          {[], {idx + 1, %{data | flags_byte: byte}}}
-        {idx, data} when idx in (6..9) ->
-          {[], {idx + 1, %{data | frames_size_bytes: data.frames_size_bytes ++ [byte]}}}
-        {idx, %{id_bytes: id, version_bytes: version, flags_byte: flags, frames_size_bytes: frames_size} = data} ->
-          # Process header
-          'ID3' = id
-          [major_version, revision] = version
-          data =
-            data
-            |> Map.delete(:id_bytes)
-            |> Map.delete(:version_bytes)
-            |> Map.delete(:flags_byte)
-            |> Map.delete(:frames_size_bytes)
-            |> Map.merge(%{
-              version: {major_version, revision},
-              flags: %{
-                unsynchronization: (flags &&& 0b10000000) != 0,
-                extended_header: (flags &&& 0b01000000) != 0,
-                experimental: (flags &&& 0b00100000) != 0
-              },
-              frames_size: unpacked_size(frames_size),
-              reversed_frames_bytes: [byte]
-            })
+  end
 
-          {[], {idx + 1, data}}
-        {idx, %{frames_size: n, reversed_frames_bytes: bytes} = data} when idx < @header_size + n ->
-          {[], {idx + 1, %{data | reversed_frames_bytes: [byte|bytes]}}}
-        {_, data} ->
-          {reversed, data} =
-            data
-            |> Map.delete(:frames_size)
-            |> Map.pop(:reversed_frames_bytes)
+  defp reduce_bytestream_to_id3(stream) do
+    data =
+      stream
+      |> Enum.reduce_while({0, %{}}, fn
+        byte, {idx, data} when idx in (0..1) ->
+          {:cont, {idx + 1, Map.update(data, :id_bytes, [byte], & &1 ++ [byte])}}
+        byte, {2, data} ->
+          {id_bytes, data} = Map.pop(data, :id_bytes)
+          case id_bytes ++ [byte] do
+            'ID3' ->
+              {:cont, {3, data}}
+            _ ->
+              {:halt, Map.put(data, :error, "no ID3v2 tag detected")}
+          end
+        byte, {3, data} ->
+          {:cont, {4, Map.update(data, :version_bytes, [byte], & &1 ++ [byte])}}
+        byte, {4, data} ->
+          {version_bytes, data} = Map.pop(data, :version_bytes)
+          [major_version, revision] = version_bytes ++ [byte]
+          {:cont, {5, Map.put(data, :version, {major_version, revision})}}
+        byte, {idx, %{version: {3, _}}} = acc when idx >= 5 ->
+          Celeste.MP3.ID3v2p3.read_streamed_byte(byte, acc)
+        byte, {idx, %{version: {4, _}}} = acc when idx >= 5 ->
+          Celeste.MP3.ID3v2p4.read_streamed_byte(byte, acc)
+      end)
 
-          data =
-            data
-            |> Map.put(:frames_bytes, reversed |> Enum.reverse)
-
-          {[data], nil}
-        nil -> {:halt, nil}
+    {data, frames} =
+      case data.version do
+        {3, _} ->
+          {binary, data} = Map.pop(data, :frames_binary)
+          frames = Celeste.MP3.ID3v2p3.decode_frames(binary)
+          {data, frames}
+        {4, _} ->
+          {binary, data} = Map.pop(data, :frames_binary)
+          frames = Celeste.MP3.ID3v2p4.decode_frames(binary)
+          {data, frames}
       end
-    end)
-    |> Enum.at(0)
-  end
 
-  defp frames_binary_to_frames_list(binary, acc \\ [])
-  defp frames_binary_to_frames_list("", acc), do: acc
-  defp frames_binary_to_frames_list(<<0, _::binary>>, acc), do: acc
-  defp frames_binary_to_frames_list(binary, acc) do
-    <<header::binary-size(10), binary::binary>> = binary
-    <<id::binary-size(4), size::binary-size(4), flags::binary-size(2)>> = header
-    <<frame_size::integer-32>> = size
-    <<raw_encoded_frame::binary-size(frame_size), binary::binary>> = binary
-    <<encoding::integer-8, frame_remainder::binary>> = raw_encoded_frame
+    frames =
+      frames
+      |> Enum.map(fn
+        {key, {subkey, values}} when key in ["PRIV", "TXXX"] ->
+          {"#{key}_#{subkey}", values}
+        tuple ->
+          tuple
+      end)
+      |> Enum.group_by(&elem(&1, 0), &elem(&1, 1))
 
-    frame =
-      case encoding do
-        0 -> frame_remainder
-        1 -> frame_remainder |> utf16_to_string()
-        _ -> raw_encoded_frame
-      end
-      |> strip_zero_padding()
-
-    tuple = {id, frame}
-
-    frames_binary_to_frames_list(binary, [tuple | acc])
-  end
-
-  defp utf16_to_string(<<bom::binary-size(2), binary::binary>>) do
-    {encoding, _} = :unicode.bom_to_encoding(bom)
-    binary |> :unicode.characters_to_binary(encoding)
-  end
-
-  defp strip_zero_padding(binary, acc \\ <<>>)
-  defp strip_zero_padding(<<>>, acc), do: acc
-  defp strip_zero_padding(<<0>>, acc), do: acc
-  defp strip_zero_padding(<<c, binary::binary>>, acc), do: strip_zero_padding(binary, acc <> <<c>>)
-
-  defp unpacked_size(list) do
-    Enum.reduce(list, 0, & (&2 <<< 7) + &1)
+    Map.put(data, :frames, frames)
   end
 end

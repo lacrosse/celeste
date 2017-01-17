@@ -15,22 +15,13 @@ defmodule Celeste.Router do
     plug Guardian.Plug.EnsureAuthenticated
   end
 
-  scope "/", Celeste do
-    pipe_through [:browser]
-
-    resources "/session", SessionController, only: [:new, :create], singleton: true
-
-    get "/", PageController, :index
+  pipeline :api do
+    plug :accepts, ["json"]
   end
 
-  scope "/", Celeste do
-    pipe_through [:browser, :browser_private]
+  scope "/api", Celeste.API do
+    pipe_through [:api]
 
-    resources "/session", SessionController, only: [:delete], singleton: true
-
-    resources "/assemblages", AssemblageController, only: [:show, :new, :create, :edit]
-    resources "/files", FileController, only: [:show]
-
-    get "/composers", AssemblageController, :composers
+    resources "/assemblages", AssemblageController, only: [:show]
   end
 end

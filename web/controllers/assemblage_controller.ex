@@ -88,6 +88,8 @@ defmodule Celeste.AssemblageController do
 
   defp shallow_assemblages(conn, name, assemblages) do
     assemblage = %{
+      id: nil,
+      kind: "verbose",
       name: name,
       parent_assemblages: [],
       files: [],

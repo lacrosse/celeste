@@ -7,11 +7,7 @@
     </thead>
     <tbody>
       <%= for file <- @files do %>
-        <tr>
-          <td>
-            <strong><%= file_link(@conn, file) %></strong>
-          </td>
-        </tr>
+        <%= file_row(@conn, file) %>
       <% end %>
     </tbody>
   </table>

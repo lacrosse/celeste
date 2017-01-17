@@ -2,7 +2,7 @@ defmodule Celeste.AssemblageView do
   use Celeste.Web, :view
 
   alias Celeste.Assemblage
-  alias Celeste.File, as: ZFile
+  alias Celeste.File, as: CFile
 
   def wikipedia_path(topic) do
     "https://en.wikipedia.org/wiki/#{String.replace(topic, " ", "_")}"
@@ -77,7 +77,32 @@ defmodule Celeste.AssemblageView do
     link(assemblage.name, to: assemblage_path(conn, :show, assemblage.id))
   end
 
-  def file_link(conn, file) do
-    link Path.basename(file.path), to: file_path(conn, :show, ZFile.link_param(file))
+  def file_row(conn, file) do
+    {icons, text} =
+      cond do
+        Regex.match?(~r/\.mp3$/, file.path) ->
+          icons = [
+            link(content_tag(:i, nil, class: "fa fa-fw fa-play"), to: "", class: "button play-file"),
+          ]
+          title =
+            if file.id3v2 do
+              "#{CFile.id3(file, "TRCK")}. #{CFile.id3(file, "TIT2")}"
+            else
+              Path.basename(file.path)
+            end
+          {icons, title}
+        Regex.match?(~r/\.jpg/, file.path) ->
+          {[content_tag(:i, nil, class: "fa fa-fw fa-photo")],
+           link(Path.basename(file.path), to: file_path(conn, :show, CFile.link_param(file)))}
+        true ->
+          {[content_tag(:i, nil, class: "fa fa-fw fa-file")],
+           link(Path.basename(file.path), to: file_path(conn, :show, CFile.link_param(file)))}
+      end
+
+    content_tag(:tr, data: [file: CFile.link_param(file)]) do
+      content_tag(:td) do
+        [icons, " ", text]
+      end
+    end
   end
 end

@@ -16,9 +16,29 @@ defmodule Celeste.FileController do
 
     response_filename = "#{ZFile.link_param(file)}.#{extension}"
 
-    conn
-    |> put_resp_header("content-type", file.mime)
-    |> put_resp_header("content-disposition", ~s|inline; filename="#{response_filename}"|)
-    |> send_file(200, file.path)
+    case file.mime do
+      "audio" <> _ ->
+        case get_req_header(conn, "range") do
+          ["bytes=" <> range] ->
+            [start, finish] = String.split(range, "-", parts: 2)
+            offset = String.to_integer(start)
+
+            conn
+            |> put_resp_header("content-range", "bytes #{offset}-#{file.size - 1}/#{file.size}")
+            |> put_resp_header("content-type", file.mime)
+            |> put_resp_header("accept-ranges", "bytes")
+            |> send_file(206, file.path, offset, file.size - offset)
+          _ ->
+            conn
+            |> put_resp_header("content-type", file.mime)
+            |> put_resp_header("accept-ranges", "bytes")
+            |> send_file(200, file.path)
+        end
+      _ ->
+        conn
+        |> put_resp_header("content-type", file.mime)
+        |> put_resp_header("content-disposition", ~s|inline; filename="#{response_filename}"|)
+        |> send_file(200, file.path)
+    end
   end
 end

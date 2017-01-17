@@ -1,4 +1,4 @@
 alias Celeste.File, as: CFile
 alias Celeste.Repo
 
-import Ecto.Query, only: [from: 2]
+import Ecto.Query, only: [from: 1, from: 2]
