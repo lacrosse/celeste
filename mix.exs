@@ -33,8 +33,7 @@ defmodule Celeste.Mixfile do
      {:comeonin, "~> 3.0"},
      {:guardian, "~> 0.14"},
      {:mime, "~> 1.0"},
-     {:id3v2, "~> 0.1.0"},
-     {:erl_id3v2, github: "brendonh/erl_id3v2"}]
+     {:corsica, "~> 0.5"}]
   end
 
   defp aliases do

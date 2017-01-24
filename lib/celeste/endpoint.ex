@@ -38,5 +38,6 @@ defmodule Celeste.Endpoint do
     key: "_celeste_key",
     signing_salt: "uFKoiOZ1"
 
+  plug Celeste.CORS
   plug Celeste.Router
 end

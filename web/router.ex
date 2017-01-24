@@ -23,5 +23,6 @@ defmodule Celeste.Router do
     pipe_through [:api]
 
     resources "/assemblages", AssemblageController, only: [:show]
+    resources "/session", SessionController, only: [:create], singleton: true
   end
 end
