@@ -6,19 +6,7 @@ defmodule Celeste.AssemblageController do
   alias Celeste.{Assemblage, Assembly}
 
   def composers(conn, _) do
-    assemblages =
-      Celeste.Repo.all(
-        Ecto.Query.from a in Assemblage,
-          where: a.kind == "person",
-          join: aa in Assembly,
-          on: aa.assemblage_id == a.id,
-          where: aa.kind == "composed",
-          join: c in Assemblage,
-          on: aa.child_assemblage_id == c.id,
-          where: c.kind == "composition",
-          group_by: [a.id],
-          order_by: [a.name]
-      )
+    assemblages = Celeste.Repo.all(Assemblage.composers_query())
 
     conn
     |> shallow_assemblages("Composers", assemblages)

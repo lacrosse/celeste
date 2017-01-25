@@ -41,4 +41,17 @@ defmodule Celeste.Assemblage do
       order_by: [a.name],
       preload: [:tags]
   end
+
+  def composers_query do
+    from a in __MODULE__,
+      where: a.kind == "person",
+      join: aa in Assembly,
+      on: aa.assemblage_id == a.id,
+      where: aa.kind == "composed",
+      join: c in ^__MODULE__,
+      on: aa.child_assemblage_id == c.id,
+      where: c.kind == "composition",
+      group_by: [a.id],
+      order_by: [a.name]
+  end
 end
