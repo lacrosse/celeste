@@ -35,6 +35,7 @@ defmodule Celeste.Router do
     pipe_through [:api, :api_private]
 
     resources "/assemblages", AssemblageController, only: [:show]
+    resources "/files", FileController, only: [:show]
     get "/composers", AssemblageController, :composers
   end
 end

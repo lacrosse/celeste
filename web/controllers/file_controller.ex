@@ -17,7 +17,7 @@ defmodule Celeste.FileController do
     response_filename = "#{ZFile.link_param(file)}.#{extension}"
 
     case file.mime do
-      "audio" <> _ ->
+      "audio/" <> _ ->
         case get_req_header(conn, "range") do
           ["bytes=" <> range] ->
             [start, finish] = String.split(range, "-", parts: 2)
