@@ -25,6 +25,24 @@ defmodule Celeste.Router do
     plug Guardian.Plug.EnsureAuthenticated, handler: Celeste.API.Bailiff
   end
 
+  scope "/", Celeste do
+    pipe_through [:browser]
+
+    resources "/session", SessionController, only: [:new, :create], singleton: true
+
+    get "/", PageController, :index
+  end
+
+  scope "/", Celeste do
+    pipe_through [:browser, :browser_private]
+
+    resources "/session", SessionController, only: [:delete], singleton: true
+
+    resources "/assemblages", AssemblageController, only: [:show, :new, :create, :edit]
+
+    get "/composers", AssemblageController, :composers
+  end
+
   scope "/api", Celeste.API do
     pipe_through [:api]
 
