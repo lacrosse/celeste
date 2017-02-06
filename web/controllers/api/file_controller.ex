@@ -1,4 +1,4 @@
-defmodule Celeste.FileController do
+defmodule Celeste.API.FileController do
   use Celeste.Web, :controller
 
   alias Celeste.Repo
@@ -16,6 +16,8 @@ defmodule Celeste.FileController do
 
     response_filename = "#{ZFile.link_param(file)}.#{extension}"
 
+    conn = conn |> put_resp_header("content-type", file.mime)
+
     case file.mime do
       "audio/" <> _ ->
         case get_req_header(conn, "range") do
@@ -25,18 +27,15 @@ defmodule Celeste.FileController do
 
             conn
             |> put_resp_header("content-range", "bytes #{offset}-#{file.size - 1}/#{file.size}")
-            |> put_resp_header("content-type", file.mime)
             |> put_resp_header("accept-ranges", "bytes")
             |> send_file(206, file.path, offset, file.size - offset)
           _ ->
             conn
-            |> put_resp_header("content-type", file.mime)
             |> put_resp_header("accept-ranges", "bytes")
             |> send_file(200, file.path)
         end
       _ ->
         conn
-        |> put_resp_header("content-type", file.mime)
         |> put_resp_header("content-disposition", ~s|inline; filename="#{response_filename}"|)
         |> send_file(200, file.path)
     end

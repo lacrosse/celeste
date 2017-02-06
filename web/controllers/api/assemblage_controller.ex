@@ -8,9 +8,10 @@ defmodule Celeste.API.AssemblageController do
       Repo.get!(Assemblage, id)
       |> Repo.preload(:parent_assemblies)
       |> Repo.preload(:child_assemblies)
-      |> Repo.preload(:parent_assemblages)
-      |> Repo.preload(:child_assemblages)
+      |> Repo.preload(parent_assemblages: :tags)
+      |> Repo.preload(child_assemblages: :tags)
       |> Repo.preload(:files)
+      |> Repo.preload(:tags)
 
     conn
     |> render("show.json", assemblage: assemblage)

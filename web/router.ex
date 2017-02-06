@@ -1,20 +1,6 @@
 defmodule Celeste.Router do
   use Celeste.Web, :router
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-    plug Guardian.Plug.VerifySession
-    plug Guardian.Plug.LoadResource
-  end
-
-  pipeline :browser_private do
-    plug Guardian.Plug.EnsureAuthenticated
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
     plug Guardian.Plug.VerifyHeader, realm: "Bearer"
@@ -22,25 +8,7 @@ defmodule Celeste.Router do
   end
 
   pipeline :api_private do
-    plug Guardian.Plug.EnsureAuthenticated, handler: Celeste.API.Bailiff
-  end
-
-  scope "/", Celeste do
-    pipe_through [:browser]
-
-    resources "/session", SessionController, only: [:new, :create], singleton: true
-
-    get "/", PageController, :index
-  end
-
-  scope "/", Celeste do
-    pipe_through [:browser, :browser_private]
-
-    resources "/session", SessionController, only: [:delete], singleton: true
-
-    resources "/assemblages", AssemblageController, only: [:show, :new, :create, :edit]
-
-    get "/composers", AssemblageController, :composers
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   scope "/api", Celeste.API do
