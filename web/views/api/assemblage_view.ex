@@ -1,4 +1,6 @@
 defmodule Celeste.API.AssemblageView do
+  alias Celeste.File, as: CFile
+
   def render("index.json", %{assemblages: assemblages}) do
     %{
       assemblages: assemblages |> Enum.map(&short(&1))
@@ -11,7 +13,7 @@ defmodule Celeste.API.AssemblageView do
     }
   end
 
-  def render("show.json", %{assemblage: assemblage}) do
+  def render("show.json", %{assemblage: assemblage, user: user}) do
     %{
       assemblage: Map.merge(
         short(assemblage),
@@ -31,7 +33,9 @@ defmodule Celeste.API.AssemblageView do
             %{tag_ids: assemblage.tags |> Enum.map(& &1.id)}
           )
         end),
-      files: assemblage.files |> Enum.map(&file/1),
+      files:
+        assemblage.files
+        |> Enum.map(&file(&1, user)),
       tags:
         ([assemblage] ++ assemblage.parent_assemblages ++ assemblage.child_assemblages)
         |> Enum.flat_map(& &1.tags)
@@ -47,10 +51,10 @@ defmodule Celeste.API.AssemblageView do
     }
   end
 
-  def file(file) do
+  def file(file, user) do
     %{
       id: file.id,
-      sha256: file |> Celeste.File.link_param,
+      path: CFile.jwt(file, user),
       mime: file.mime,
       name: Path.basename(file.path)
     }

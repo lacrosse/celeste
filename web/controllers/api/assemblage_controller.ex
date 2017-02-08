@@ -14,7 +14,7 @@ defmodule Celeste.API.AssemblageController do
       |> Repo.preload(:tags)
 
     conn
-    |> render("show.json", assemblage: assemblage)
+    |> render("show.json", assemblage: assemblage, user: Guardian.Plug.current_resource(conn))
   end
 
   def composers(conn, _) do

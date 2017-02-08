@@ -26,4 +26,12 @@ defmodule Celeste.File do
   def link_param(file), do: file.sha256 |> Base.encode16(case: :lower)
 
   def id3(file, key), do: with [value|_] = file.id3v2[key], do: value
+
+  def jwt(file, user) do
+    {:ok, jwt, _} =
+      file
+      |> Guardian.encode_and_sign(:access, %{u: user.id})
+
+    jwt
+  end
 end
