@@ -108,6 +108,17 @@ ALTER SEQUENCE assemblies_id_seq OWNED BY assemblies.id;
 
 
 --
+-- Name: borkles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE borkles (
+    user_id integer,
+    file_id integer,
+    inserted_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: files; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -339,6 +350,20 @@ CREATE INDEX assemblages_files_assemblage_id_index ON assemblages_files USING bt
 
 
 --
+-- Name: borkles_file_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX borkles_file_id_index ON borkles USING btree (file_id);
+
+
+--
+-- Name: borkles_user_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX borkles_user_id_index ON borkles USING btree (user_id);
+
+
+--
 -- Name: files_path_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -392,6 +417,22 @@ ALTER TABLE ONLY assemblages_files
 
 
 --
+-- Name: borkles borkles_file_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY borkles
+    ADD CONSTRAINT borkles_file_id_fkey FOREIGN KEY (file_id) REFERENCES files(id);
+
+
+--
+-- Name: borkles borkles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY borkles
+    ADD CONSTRAINT borkles_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: tags tags_assemblage_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -403,5 +444,5 @@ ALTER TABLE ONLY tags
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046), (20170114111539), (20170114185651), (20170114230607), (20170115130531);
+INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046), (20170114111539), (20170114185651), (20170114230607), (20170115130531), (20170207172503);
 

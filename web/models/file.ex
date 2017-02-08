@@ -3,6 +3,7 @@ defmodule Celeste.File do
 
   schema "files" do
     many_to_many :assemblages, Celeste.Assemblage, join_through: "assemblages_files"
+    has_many :borkles, Celeste.Borkle
 
     field :path, :string
     field :mime, :string
