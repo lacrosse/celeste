@@ -1,7 +1,7 @@
 defmodule Celeste.API.FileController do
   use Celeste.Web, :controller
 
-  alias Celeste.{Repo, User, Borkle}
+  alias Celeste.{Repo, User, Borkfm}
   alias Celeste.File, as: CFile
 
   def show(conn, %{"id" => jwt}) do
@@ -26,11 +26,8 @@ defmodule Celeste.API.FileController do
               |> send_file(206, file.path, offset, file.size - offset)
 
             _ ->
-              user = Repo.get!(User, user_id)
-
-              %Borkle{}
-              |> Borkle.changeset(%{user_id: user.id, file_id: file.id})
-              |> Repo.insert!()
+              file
+              |> Borkfm.bork(Repo.get!(User, user_id))
 
               conn
               |> put_resp_header("accept-ranges", "bytes")
