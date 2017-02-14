@@ -1,5 +1,5 @@
 defmodule Celeste.Borkfm do
-  alias Celeste.Borkle
+  alias Celeste.{Borkle, Repo}
 
   def bork(file, user) do
     %Borkle{}

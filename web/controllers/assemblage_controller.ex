@@ -3,7 +3,7 @@ defmodule Celeste.AssemblageController do
 
   require Ecto.Query
 
-  alias Celeste.{Assemblage, Assembly}
+  alias Celeste.Assemblage
 
   def composers(conn, _) do
     assemblages = Celeste.Repo.all(Assemblage.composers_query())

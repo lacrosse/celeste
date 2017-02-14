@@ -2,7 +2,6 @@ defmodule Celeste.API.FileController do
   use Celeste.Web, :controller
 
   alias Celeste.{Repo, User, Borkfm}
-  alias Celeste.File, as: CFile
 
   def show(conn, %{"id" => jwt}) do
     with {:ok, %{"sub" => sub, "u" => user_id}} <- Guardian.decode_and_verify(jwt),
@@ -17,7 +16,7 @@ defmodule Celeste.API.FileController do
         "audio/" <> _ ->
           case get_req_header(conn, "range") do
             ["bytes=" <> range] ->
-              [start, finish] = String.split(range, "-", parts: 2)
+              [start, _] = String.split(range, "-", parts: 2)
               offset = String.to_integer(start)
 
               conn
