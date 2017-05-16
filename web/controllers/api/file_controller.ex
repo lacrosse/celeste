@@ -12,6 +12,8 @@ defmodule Celeste.API.FileController do
         conn
         |> put_resp_header("content-type", file.mime)
 
+      bork = fn -> Borkfm.bork(file, Repo.get!(User, user_id)) end
+
       case file.mime do
         "audio/" <> _ ->
           case get_req_header(conn, "range") do
@@ -19,14 +21,15 @@ defmodule Celeste.API.FileController do
               [start, _] = String.split(range, "-", parts: 2)
               offset = String.to_integer(start)
 
+              if offset == 0, do: bork.()
+
               conn
               |> put_resp_header("content-range", "bytes #{offset}-#{file.size - 1}/#{file.size}")
               |> put_resp_header("accept-ranges", "bytes")
               |> send_file(206, file.path, offset, file.size - offset)
 
             _ ->
-              file
-              |> Borkfm.bork(Repo.get!(User, user_id))
+              bork.()
 
               conn
               |> put_resp_header("accept-ranges", "bytes")
