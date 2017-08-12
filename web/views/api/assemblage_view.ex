@@ -89,8 +89,7 @@ defmodule Celeste.API.AssemblageView do
       kind: assembly.kind
     }
   end
-
-  defp tag(tag) do
+  defp render_partial(%Celeste.Tag{} = tag, _) do
     %{
       id: tag.id,
       key: tag.key,
