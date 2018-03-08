@@ -15,6 +15,7 @@ defmodule Celeste.Router do
   scope "/api", Celeste.API do
     pipe_through [:api]
 
+    get "/", RootController, :ping
     resources "/session", SessionController, only: [:create], singleton: true
     resources "/files", FileController, only: [:show]
   end
