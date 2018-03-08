@@ -29,5 +29,5 @@ defmodule Celeste.Router do
     get "/performers", AssemblageController, :performers
   end
 
-  resources "/files", API.FileController, only: [:show]
+  resources "/files", Celeste.API.FileController, only: [:show]
 end
