@@ -7,6 +7,8 @@ defmodule Celeste.Borkle do
     belongs_to :user, Celeste.File
     belongs_to :file, Celeste.File
 
+    field :scrobbled, :boolean
+
     timestamps(updated_at: false)
   end
 

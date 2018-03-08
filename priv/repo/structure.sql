@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.1
--- Dumped by pg_dump version 9.6.1
+-- Dumped from database version 9.6.4
+-- Dumped by pg_dump version 9.6.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -114,7 +114,8 @@ ALTER SEQUENCE assemblies_id_seq OWNED BY assemblies.id;
 CREATE TABLE borkles (
     user_id integer,
     file_id integer,
-    inserted_at timestamp without time zone NOT NULL
+    inserted_at timestamp without time zone NOT NULL,
+    scrobbled boolean DEFAULT false NOT NULL
 );
 
 
@@ -208,7 +209,9 @@ CREATE TABLE users (
     username character varying(255) NOT NULL,
     password_hash character varying(255) NOT NULL,
     inserted_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    lastfm_username character varying(255),
+    lastfm_key character varying(255)
 );
 
 
@@ -444,5 +447,5 @@ ALTER TABLE ONLY tags
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046), (20170114111539), (20170114185651), (20170114230607), (20170115130531), (20170207172503);
+INSERT INTO "schema_migrations" (version) VALUES (20170113125235), (20170113145411), (20170113150407), (20170113150619), (20170113221822), (20170113234956), (20170113235046), (20170114111539), (20170114185651), (20170114230607), (20170115130531), (20170207172503), (20170816223846), (20170816224152), (20170816224633);
 

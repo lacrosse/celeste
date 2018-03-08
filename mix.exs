@@ -33,7 +33,8 @@ defmodule Celeste.Mixfile do
      {:comeonin, "~> 3.0"},
      {:guardian, "~> 0.14"},
      {:mime, "~> 1.0"},
-     {:corsica, "~> 0.5"}]
+     {:corsica, "~> 0.5"},
+     {:httpotion, "~> 3.0.3"}]
   end
 
   defp aliases do

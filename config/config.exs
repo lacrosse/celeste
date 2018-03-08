@@ -11,6 +11,9 @@ config :celeste, Celeste.Endpoint,
   pubsub: [name: Celeste.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :celeste, Celeste.Borkfm,
+  api_key: ""
+
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]

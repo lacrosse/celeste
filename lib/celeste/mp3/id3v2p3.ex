@@ -37,7 +37,7 @@ defmodule Celeste.MP3.ID3v2p3 do
   def decode_frames(<<0>> <> _, acc), do: acc
   def decode_frames(binary, acc) do
     <<header::binary-10, binary::binary>> = binary
-    <<id::binary-4, frame_size::integer-32, flag_bytes::binary-2>> = header
+    <<id::binary-4, frame_size::integer-32, _flag_bytes::binary-2>> = header
     <<raw_encoded_frame::binary-size(frame_size), binary::binary>> = binary
     <<encoding::integer-8, frame_remainder::binary>> = raw_encoded_frame
 
@@ -84,7 +84,7 @@ defmodule Celeste.MP3.ID3v2p3 do
   defp strip_zero_padding(<<c, binary::binary>>, acc), do: strip_zero_padding(binary, acc <> <<c>>)
 
   defp unterminate_gently(binary, terminator, acc \\ <<>>)
-  defp unterminate_gently(<<>>, terminator, acc), do: acc
+  defp unterminate_gently(<<>>, _terminator, acc), do: acc
   defp unterminate_gently(terminator, terminator, acc), do: acc
   defp unterminate_gently(<<c>> <> binary, terminator, acc), do: unterminate_gently(binary, terminator, acc <> <<c>>)
 
@@ -92,7 +92,7 @@ defmodule Celeste.MP3.ID3v2p3 do
     Enum.reduce(list, 0, & (&2 <<< 7) + &1)
   end
 
-  defp visualize do
+  defp visualize(binary) do
     binary
     |> String.codepoints
     |> Stream.chunk(16)

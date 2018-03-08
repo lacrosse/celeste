@@ -9,6 +9,8 @@ defmodule Celeste.User do
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    field :lastfm_username, :string
+    field :lastfm_key, :string
 
     timestamps()
   end
@@ -26,7 +28,7 @@ defmodule Celeste.User do
       {:ok, user}
     else
       {:db, _} ->
-        dummy_checkpw
+        dummy_checkpw()
         :error
       {:bcrypt, _} ->
         :error

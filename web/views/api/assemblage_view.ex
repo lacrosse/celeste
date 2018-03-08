@@ -53,7 +53,7 @@ defmodule Celeste.API.AssemblageView do
 
   defp finalize({response, root}), do: Map.merge(root, %{assemblage: response})
 
-  defp embed({response, root}, relationship, opts \\ %{}) do
+  defp embed({response, root}, relationship, opts) do
     ids = Enum.map(relationship, & &1.id)
     entities = Enum.map(relationship, &render_partial(&1, opts[:with]))
 
