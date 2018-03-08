@@ -17,7 +17,7 @@ defmodule Celeste.Router do
 
     get "/", RootController, :ping
     resources "/session", SessionController, only: [:create], singleton: true
-    resources "/files", FileController, only: [:show]
+    resources "/files", FileController, only: [:show] # legacy
   end
 
   scope "/api", Celeste.API do
@@ -28,4 +28,6 @@ defmodule Celeste.Router do
     get "/composers", AssemblageController, :composers
     get "/performers", AssemblageController, :performers
   end
+
+  resources "/files", API.FileController, only: [:show]
 end
