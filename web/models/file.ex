@@ -35,4 +35,10 @@ defmodule Celeste.File do
 
     jwt
   end
+
+  def public_filename(%Celeste.File{mime: mime, sha256: sha256} = file) do
+    [extension|_] = MIME.extensions(mime)
+    name = sha256 |> Base.encode16(case: :lower)
+    "#{name}.#{extension}"
+  end
 end

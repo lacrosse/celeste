@@ -6,11 +6,10 @@ defmodule Celeste.API.FileController do
   def show(conn, %{"id" => jwt}) do
     with {:ok, %{"sub" => sub, "u" => user_id}} <- Guardian.decode_and_verify(jwt),
          {:ok, file} <- Celeste.GuardianSerializer.from_token(sub) do
-      [extension|_] = MIME.extensions(file.mime)
       conn =
         conn
         |> put_resp_header("content-type", file.mime)
-        |> put_resp_header("content-disposition", ~s|inline; filename="#{file.sha256}.#{extension}"|)
+        |> put_resp_header("content-disposition", ~s|inline; filename="#{Celeste.File.public_filename(file)}"|)
 
       path = file.path
 
