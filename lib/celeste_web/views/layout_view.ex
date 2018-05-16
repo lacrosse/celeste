@@ -1,4 +1,4 @@
-defmodule Celeste.LayoutView do
+defmodule CelesteWeb.LayoutView do
   use Celeste.Web, :view
 
   def title(conn) do

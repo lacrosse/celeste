@@ -1,4 +1,4 @@
-defmodule Celeste.ConnCase do
+defmodule CelesteWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -25,10 +25,10 @@ defmodule Celeste.ConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import Celeste.Router.Helpers
+      import CelesteWeb.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint Celeste.Endpoint
+      @endpoint CelesteWeb.Endpoint
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule Celeste.Gettext do
+defmodule CelesteWeb.Gettext do
   @moduledoc """
   A module providing Internationalization with a gettext-based API.
 

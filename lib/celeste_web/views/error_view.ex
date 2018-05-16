@@ -1,4 +1,4 @@
-defmodule Celeste.ErrorView do
+defmodule CelesteWeb.ErrorView do
   use Celeste.Web, :view
 
   def render("404.html", _assigns) do

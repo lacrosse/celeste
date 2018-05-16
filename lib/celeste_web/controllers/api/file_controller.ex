@@ -1,4 +1,4 @@
-defmodule Celeste.API.FileController do
+defmodule CelesteWeb.API.FileController do
   use Celeste.Web, :controller
 
   alias Celeste.{Repo, User, Borkfm}

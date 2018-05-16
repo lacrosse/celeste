@@ -28,20 +28,20 @@ defmodule Celeste.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller
+      use Phoenix.Controller, namespace: CelesteWeb
 
       alias Celeste.Repo
       import Ecto
       import Ecto.Query
 
-      import Celeste.Router.Helpers
-      import Celeste.Gettext
+      import CelesteWeb.Router.Helpers
+      import CelesteWeb.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "web/templates"
+      use Phoenix.View, root: "lib/celeste_web/templates", namespace: CelesteWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -49,9 +49,9 @@ defmodule Celeste.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Celeste.Router.Helpers
-      import Celeste.ErrorHelpers
-      import Celeste.Gettext
+      import CelesteWeb.Router.Helpers
+      import CelesteWeb.ErrorHelpers
+      import CelesteWeb.Gettext
     end
   end
 
@@ -68,7 +68,7 @@ defmodule Celeste.Web do
       alias Celeste.Repo
       import Ecto
       import Ecto.Query
-      import Celeste.Gettext
+      import CelesteWeb.Gettext
     end
   end
 

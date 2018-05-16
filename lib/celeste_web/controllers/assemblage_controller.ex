@@ -1,4 +1,4 @@
-defmodule Celeste.AssemblageController do
+defmodule CelesteWeb.AssemblageController do
   use Celeste.Web, :controller
 
   require Ecto.Query

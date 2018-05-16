@@ -6,7 +6,7 @@ defmodule Celeste do
 
     children = [
       supervisor(Celeste.Repo, []),
-      supervisor(Celeste.Endpoint, []),
+      supervisor(CelesteWeb.Endpoint, []),
     ]
 
     opts = [strategy: :one_for_one, name: Celeste.Supervisor]
@@ -14,7 +14,7 @@ defmodule Celeste do
   end
 
   def config_change(changed, _new, removed) do
-    Celeste.Endpoint.config_change(changed, removed)
+    CelesteWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

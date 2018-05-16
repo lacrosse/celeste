@@ -1,4 +1,4 @@
-defmodule Celeste.API.NewsController do
+defmodule CelesteWeb.API.NewsController do
   use Celeste.Web, :controller
 
   require Ecto.Query

@@ -1,4 +1,4 @@
-defmodule Celeste.API.AssemblageController do
+defmodule CelesteWeb.API.AssemblageController do
   use Celeste.Web, :controller
 
   alias Celeste.{Repo, Assemblage}

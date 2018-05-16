@@ -1,4 +1,4 @@
-defmodule Celeste.Router do
+defmodule CelesteWeb.Router do
   use Celeste.Web, :router
 
   pipeline :api do
@@ -12,7 +12,7 @@ defmodule Celeste.Router do
     plug Guardian.Plug.EnsureResource
   end
 
-  scope "/api", Celeste.API do
+  scope "/api", CelesteWeb.API do
     pipe_through [:api]
 
     get "/", RootController, :ping
@@ -20,7 +20,7 @@ defmodule Celeste.Router do
     resources "/files", FileController, only: [:show] # legacy
   end
 
-  scope "/api", Celeste.API do
+  scope "/api", CelesteWeb.API do
     pipe_through [:api, :api_private]
 
     resources "/assemblages", AssemblageController, only: [:show]

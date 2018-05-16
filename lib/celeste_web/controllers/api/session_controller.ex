@@ -1,4 +1,4 @@
-defmodule Celeste.API.SessionController do
+defmodule CelesteWeb.API.SessionController do
   use Celeste.Web, :controller
 
   alias Celeste.User

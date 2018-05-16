@@ -1,4 +1,4 @@
-defmodule Celeste.ErrorHelpers do
+defmodule CelesteWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """

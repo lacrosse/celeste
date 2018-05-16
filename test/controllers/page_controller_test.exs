@@ -1,5 +1,5 @@
 defmodule Celeste.PageControllerTest do
-  use Celeste.ConnCase
+  use CelesteWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

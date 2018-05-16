@@ -1,4 +1,4 @@
-defmodule Celeste.API.SessionView do
+defmodule CelesteWeb.API.SessionView do
   def render("show.json", %{user: user, jwt: jwt, exp: exp}) do
     %{
       session: %{

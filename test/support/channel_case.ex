@@ -1,4 +1,4 @@
-defmodule Celeste.ChannelCase do
+defmodule CelesteWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -27,7 +27,7 @@ defmodule Celeste.ChannelCase do
 
 
       # The default endpoint for testing
-      @endpoint Celeste.Endpoint
+      @endpoint CelesteWeb.Endpoint
     end
   end
 

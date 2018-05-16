@@ -1,4 +1,4 @@
-defmodule Celeste.API.AssemblageView do
+defmodule CelesteWeb.API.AssemblageView do
   alias Celeste.File, as: CFile
 
   def render("index.json", %{assemblages: assemblages}) do

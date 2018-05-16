@@ -1,7 +1,7 @@
 defmodule Cyclosa do
   require Ecto.Query
 
-  alias Celeste.File, as: ZFile
+  alias Celeste.File, as: CFile
   alias Celeste.{Assemblage, Repo}
 
   @kbytes 10
@@ -58,11 +58,11 @@ defmodule Cyclosa do
           {path, %{mime: mime, size: size, sha256: sha256, atime: atime, ctime: ctime, mtime: mtime}} ->
             {:ok, result} =
               Repo.transaction fn ->
-                case Repo.one(Ecto.Query.from f in ZFile, where: f.sha256 == ^sha256, limit: 1) do
-                  nil -> %ZFile{}
+                case Repo.one(Ecto.Query.from f in CFile, where: f.sha256 == ^sha256, limit: 1) do
+                  nil -> %CFile{}
                   value -> value
                 end
-                |> ZFile.changeset(%{
+                |> CFile.changeset(%{
                   path: path,
                   mime: mime,
                   size: size,
@@ -126,7 +126,7 @@ defmodule Cyclosa do
     files
     |> Enum.filter(fn {path, %{mime: mime}} ->
       Path.basename(path) != ".DS_Store" && #&& MapSet.member?(@mimes, mime)
-      !Repo.one(Ecto.Query.from f in ZFile, where: f.path == ^path, limit: 1)
+      !Repo.one(Ecto.Query.from f in CFile, where: f.path == ^path, limit: 1)
     end)
   end
 end

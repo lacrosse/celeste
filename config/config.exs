@@ -4,7 +4,7 @@ config :celeste,
   ecto_repos: [Celeste.Repo]
 
 # Configures the endpoint
-config :celeste, Celeste.Endpoint,
+config :celeste, CelesteWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "zA/x5XOGXIXQFxlemUvFZevjakIUF/1DceVD7YBWTUxRdDC1ZCEUVfkCPyCaU9tv",
   render_errors: [view: Celeste.ErrorView, accepts: ~w(html json)],

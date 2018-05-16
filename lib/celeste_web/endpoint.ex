@@ -1,7 +1,7 @@
-defmodule Celeste.Endpoint do
+defmodule CelesteWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :celeste
 
-  socket "/socket", Celeste.UserSocket
+  socket "/socket", CelesteWeb.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -39,5 +39,5 @@ defmodule Celeste.Endpoint do
     signing_salt: "uFKoiOZ1"
 
   plug Celeste.CORS
-  plug Celeste.Router
+  plug CelesteWeb.Router
 end

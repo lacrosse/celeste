@@ -1,4 +1,4 @@
-defmodule Celeste.AssemblageView do
+defmodule CelesteWeb.AssemblageView do
   use Celeste.Web, :view
 
   alias Celeste.Assemblage
