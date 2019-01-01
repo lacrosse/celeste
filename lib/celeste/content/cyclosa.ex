@@ -1,4 +1,4 @@
-defmodule Cyclosa do
+defmodule Celeste.Content.Cyclosa do
   require Ecto.Query
 
   alias Celeste.Content.File, as: CFile
