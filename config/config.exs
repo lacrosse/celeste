@@ -11,7 +11,7 @@ config :celeste, CelesteWeb.Endpoint,
   pubsub: [name: Celeste.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
-config :celeste, Celeste.Borkfm,
+config :celeste, Celeste.Social.Borkfm,
   api_key: ""
 
 config :logger, :console,

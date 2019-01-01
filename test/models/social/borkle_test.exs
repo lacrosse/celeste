@@ -1,7 +1,7 @@
-defmodule Celeste.BorkleTest do
+defmodule Celeste.Social.BorkleTest do
   use Celeste.ModelCase
 
-  alias Celeste.Borkle
+  alias Celeste.Social.Borkle
 
   @valid_attrs %{}
   @invalid_attrs %{}

@@ -3,7 +3,7 @@ defmodule CelesteWeb.AssemblageController do
 
   require Ecto.Query
 
-  alias Celeste.Assemblage
+  alias Celeste.KB.Assemblage
 
   def composers(conn, _) do
     assemblages = Celeste.Repo.all(Assemblage.composers_query())
@@ -14,11 +14,12 @@ defmodule CelesteWeb.AssemblageController do
 
   def show(conn, %{"id" => id}) do
     query =
-      from a in Assemblage,
-      preload: [
-        :tags,
-        files: ^from(a in Celeste.File, order_by: :path)
-      ]
+      from(a in Assemblage,
+        preload: [
+          :tags,
+          files: ^from(a in Celeste.Content.File, order_by: :path)
+        ]
+      )
 
     assemblage = Celeste.Repo.get!(query, id)
 
@@ -45,6 +46,7 @@ defmodule CelesteWeb.AssemblageController do
         conn
         |> put_flash(:info, "#{a.name} successfully created")
         |> redirect(to: assemblage_path(conn, :show, a.id))
+
       {:error, changeset} ->
         conn
         |> render("new.html", changeset: changeset)
@@ -68,7 +70,7 @@ defmodule CelesteWeb.AssemblageController do
     changeset =
       assemblage
       |> Assemblage.create_changeset(assemblage_params)
-      |> IO.inspect
+      |> IO.inspect()
 
     conn
     |> render("edit.html", changeset: changeset)

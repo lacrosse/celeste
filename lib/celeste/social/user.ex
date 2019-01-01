@@ -1,4 +1,4 @@
-defmodule Celeste.User do
+defmodule Celeste.Social.User do
   use Celeste.Web, :model
 
   import Comeonin.Bcrypt, only: [hashpwsalt: 1, checkpw: 2, dummy_checkpw: 0]
@@ -6,11 +6,11 @@ defmodule Celeste.User do
   alias Celeste.Repo
 
   schema "users" do
-    field :username, :string
-    field :password, :string, virtual: true
-    field :password_hash, :string
-    field :lastfm_username, :string
-    field :lastfm_key, :string
+    field(:username, :string)
+    field(:password, :string, virtual: true)
+    field(:password_hash, :string)
+    field(:lastfm_username, :string)
+    field(:lastfm_key, :string)
 
     timestamps()
   end
@@ -30,6 +30,7 @@ defmodule Celeste.User do
       {:db, _} ->
         dummy_checkpw()
         :error
+
       {:bcrypt, _} ->
         :error
     end

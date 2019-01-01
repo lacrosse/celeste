@@ -1,7 +1,7 @@
 defmodule Celeste.Assembly do
   use Celeste.Web, :model
 
-  alias Celeste.Assemblage
+  alias Celeste.KB.Assemblage
 
   schema "assemblies" do
     belongs_to :assemblage, Assemblage

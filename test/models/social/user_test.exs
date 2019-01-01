@@ -1,7 +1,7 @@
-defmodule Celeste.UserTest do
+defmodule Celeste.Social.UserTest do
   use Celeste.ModelCase
 
-  alias Celeste.User
+  alias Celeste.Social.User
 
   @valid_attrs %{encrypted_password: "some content", username: "some content"}
   @invalid_attrs %{}

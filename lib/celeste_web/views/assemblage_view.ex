@@ -1,8 +1,8 @@
 defmodule CelesteWeb.AssemblageView do
   use Celeste.Web, :view
 
-  alias Celeste.Assemblage
-  alias Celeste.File, as: CFile
+  alias Celeste.KB.Assemblage
+  alias Celeste.Content.File, as: CFile
 
   def wikipedia_path(topic) do
     "https://en.wikipedia.org/wiki/#{String.replace(topic, " ", "_")}"
@@ -26,7 +26,9 @@ defmodule CelesteWeb.AssemblageView do
   end
 
   def composed_by(conn, composition) do
-    composers = Celeste.Assemblage.parent_assemblages_of_kind(composition, "composed", "person") |> Celeste.Repo.all
+    composers =
+      Celeste.KB.Assemblage.parent_assemblages_of_kind(composition, "composed", "person")
+      |> Celeste.Repo.all()
 
     who = [
       "composed by ",
@@ -36,6 +38,7 @@ defmodule CelesteWeb.AssemblageView do
     case tags_with_keys(composition, ~w|creation_date|) do
       [] ->
         who
+
       [date_tag] ->
         [who, " in ", date_tag.value]
     end
@@ -50,17 +53,20 @@ defmodule CelesteWeb.AssemblageView do
   end
 
   def full_assemblage_name(conn, a, opts \\ %{})
+
   def full_assemblage_name(conn, %Assemblage{kind: "composition"} = composition, opts) do
     name =
       cond do
         opts[:link] -> assemblage_link(conn, composition)
         true -> composition.name
       end
+
     case tags_with_keys(composition, ~w|tonality|) do
       [] -> [name]
       [tag] -> [name, " in #{tag.value}"]
     end
   end
+
   def full_assemblage_name(_, assemblage, _), do: assemblage.name
 
   def tags_row(tags, class \\ "info") do
@@ -70,7 +76,7 @@ defmodule CelesteWeb.AssemblageView do
   end
 
   def tag_label(tag, class) do
-    content_tag :span, tag.value, class: "label label-#{class}"
+    content_tag(:span, tag.value, class: "label label-#{class}")
   end
 
   defp assemblage_link(conn, assemblage) do
@@ -82,18 +88,25 @@ defmodule CelesteWeb.AssemblageView do
       cond do
         Regex.match?(~r/\.mp3$/, file.path) ->
           icons = [
-            link(content_tag(:i, nil, class: "fa fa-fw fa-play"), to: "", class: "button play-file"),
+            link(content_tag(:i, nil, class: "fa fa-fw fa-play"),
+              to: "",
+              class: "button play-file"
+            )
           ]
+
           title =
             if file.id3v2 do
               "#{CFile.id3(file, "TRCK")}. #{CFile.id3(file, "TIT2")}"
             else
               Path.basename(file.path)
             end
+
           {icons, title}
+
         Regex.match?(~r/\.jpg/, file.path) ->
           {[content_tag(:i, nil, class: "fa fa-fw fa-photo")],
            link(Path.basename(file.path), to: file_path(conn, :show, CFile.link_param(file)))}
+
         true ->
           {[content_tag(:i, nil, class: "fa fa-fw fa-file")],
            link(Path.basename(file.path), to: file_path(conn, :show, CFile.link_param(file)))}

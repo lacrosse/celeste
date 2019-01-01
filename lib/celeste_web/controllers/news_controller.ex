@@ -3,8 +3,6 @@ defmodule CelesteWeb.API.NewsController do
 
   require Ecto.Query
 
-  alias Celeste.{Repo, Assemblage}
-
   def index(conn, _) do
     conn
     |> render("")

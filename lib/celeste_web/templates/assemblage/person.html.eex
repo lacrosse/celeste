@@ -7,7 +7,7 @@
 
   <%= render @view_module, "_files.html", conn: @conn, files: assemblage.files %>
 
-  <%= with compositions = Celeste.Assemblage.child_assemblages_of_kind(assemblage, "composed", "composition") |> Celeste.Repo.all do %>
+  <%= with compositions = Celeste.KB.Assemblage.child_assemblages_of_kind(assemblage, "composed", "composition") |> Celeste.Repo.all do %>
     <%= if Enum.any?(compositions) do %>
       <table class="table">
         <thead>
@@ -28,7 +28,7 @@
     <% end %>
   <% end %>
 
-  <%= with recs = Celeste.Assemblage.child_assemblages_of_kind(assemblage, "reconstructed", "composition") |> Celeste.Repo.all do %>
+  <%= with recs = Celeste.KB.Assemblage.child_assemblages_of_kind(assemblage, "reconstructed", "composition") |> Celeste.Repo.all do %>
     <%= if Enum.any?(recs) do %>
       <table class="table">
         <thead>

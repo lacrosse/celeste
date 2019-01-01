@@ -1,5 +1,5 @@
 defmodule CelesteWeb.API.AssemblageView do
-  alias Celeste.File, as: CFile
+  alias Celeste.Content.File, as: CFile
 
   def render("index.json", %{assemblages: assemblages}) do
     %{
@@ -57,8 +57,7 @@ defmodule CelesteWeb.API.AssemblageView do
     ids = Enum.map(relationship, & &1.id)
     entities = Enum.map(relationship, &render_partial(&1, opts[:with]))
 
-    {Map.merge(response, %{opts[:as] => ids}),
-     deep_merge(root, %{opts[:root] => entities})}
+    {Map.merge(response, %{opts[:as] => ids}), deep_merge(root, %{opts[:root] => entities})}
   end
 
   defp put_in_root({list, root}, key), do: deep_merge(root, %{key => list})
@@ -67,13 +66,14 @@ defmodule CelesteWeb.API.AssemblageView do
     Map.merge(map1, map2, fn _, v1, v2 -> v1 ++ v2 end)
   end
 
-  defp render_partial(%Celeste.Assemblage{} = assemblage, _) do
+  defp render_partial(%Celeste.KB.Assemblage{} = assemblage, _) do
     %{
       id: assemblage.id,
       name: assemblage.name,
-      kind: assemblage.kind,
+      kind: assemblage.kind
     }
   end
+
   defp render_partial(%CFile{id: id, mime: mime, path: path} = file, %{user: user}) do
     %{
       id: id,
@@ -82,6 +82,7 @@ defmodule CelesteWeb.API.AssemblageView do
       name: Path.basename(path)
     }
   end
+
   defp render_partial(%Celeste.Assembly{} = assembly, _) do
     %{
       assemblage_id: assembly.assemblage_id,
@@ -89,7 +90,8 @@ defmodule CelesteWeb.API.AssemblageView do
       kind: assembly.kind
     }
   end
-  defp render_partial(%Celeste.Tag{} = tag, _) do
+
+  defp render_partial(%Celeste.KB.Tag{} = tag, _) do
     %{
       id: tag.id,
       key: tag.key,

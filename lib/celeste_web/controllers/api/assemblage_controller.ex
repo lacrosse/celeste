@@ -1,7 +1,8 @@
 defmodule CelesteWeb.API.AssemblageController do
   use Celeste.Web, :controller
 
-  alias Celeste.{Repo, Assemblage}
+  alias Celeste.Repo
+  alias Celeste.KB.Assemblage
 
   def show(conn, %{"id" => id}) do
     assemblage =

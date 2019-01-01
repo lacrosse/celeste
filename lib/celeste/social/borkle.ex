@@ -1,13 +1,13 @@
-defmodule Celeste.Borkle do
+defmodule Celeste.Social.Borkle do
   use Celeste.Web, :model
 
   @primary_key false
 
   schema "borkles" do
-    belongs_to :user, Celeste.File
-    belongs_to :file, Celeste.File
+    belongs_to(:user, Celeste.Social.User)
+    belongs_to(:file, Celeste.Content.File)
 
-    field :scrobbled, :boolean
+    field(:scrobbled, :boolean)
 
     timestamps(updated_at: false)
   end

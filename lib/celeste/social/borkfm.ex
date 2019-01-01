@@ -1,5 +1,6 @@
-defmodule Celeste.Borkfm do
-  alias Celeste.{Borkle, Repo}
+defmodule Celeste.Social.Borkfm do
+  alias Celeste.Social.Borkle
+  alias Celeste.Repo
 
   def bork(file, user) do
     %Borkle{}
@@ -9,6 +10,7 @@ defmodule Celeste.Borkfm do
     case user.lastfm_key do
       nil ->
         nil
+
       key ->
         scrobble(key, file)
     end
@@ -24,7 +26,9 @@ defmodule Celeste.Borkfm do
 
     body_ = [{:api_sig, sig(body)} | body]
 
-    HTTPotion.post "https://ws.audioscrobbler.com/2.0/?format=json&method=track.scrobble", body: body_
+    HTTPotion.post("https://ws.audioscrobbler.com/2.0/?format=json&method=track.scrobble",
+      body: body_
+    )
   end
 
   defp api_key(), do: Application.fetch_env!(:celeste, __MODULE__)[:api_key]

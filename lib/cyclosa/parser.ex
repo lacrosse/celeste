@@ -1,5 +1,5 @@
 defmodule Cyclosa.Parser do
-  alias Celeste.Assemblage
+  alias Celeste.KB.Assemblage
 
   def parse_composition(%Assemblage{} = composition) do
     with regex = ~r|\s*\[(?<creation_date>.+)\]\s*|,

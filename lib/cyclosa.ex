@@ -1,8 +1,9 @@
 defmodule Cyclosa do
   require Ecto.Query
 
-  alias Celeste.File, as: CFile
-  alias Celeste.{Assemblage, Repo}
+  alias Celeste.Content.File, as: CFile
+  alias Celeste.Repo
+  alias Celeste.KB.Assemblage
 
   @kbytes 10
   @mimes MapSet.new(~w|
@@ -20,15 +21,17 @@ defmodule Cyclosa do
       grouped_files = Map.get(grouped_read, :regular, [])
 
       {:ok, assemblage} =
-        Repo.transaction fn ->
-          case Repo.one(Ecto.Query.from a in Assemblage, where: a.name == ^dir, limit: 1) do
+        Repo.transaction(fn ->
+          case Repo.one(Ecto.Query.from(a in Assemblage, where: a.name == ^dir, limit: 1)) do
             nil ->
               %Assemblage{}
               |> Assemblage.create_changeset(%{name: dir})
               |> Repo.insert!()
-            value -> value
+
+            value ->
+              value
           end
-        end
+        end)
 
       assemblage =
         assemblage
@@ -39,7 +42,7 @@ defmodule Cyclosa do
         assemblage
         |> Ecto.Changeset.change()
         |> Ecto.Changeset.put_assoc(:parent_assemblages, [parent])
-        |> Repo.update!
+        |> Repo.update!()
       end
 
       files =
@@ -51,14 +54,16 @@ defmodule Cyclosa do
         |> Enum.map(fn
           {path, %{fstype: :regular} = attrs} ->
             {path, Map.merge(attrs, %{sha256: file_sha256(path)})}
+
           tuple ->
             tuple
         end)
         |> Enum.map(fn
-          {path, %{mime: mime, size: size, sha256: sha256, atime: atime, ctime: ctime, mtime: mtime}} ->
+          {path,
+           %{mime: mime, size: size, sha256: sha256, atime: atime, ctime: ctime, mtime: mtime}} ->
             {:ok, result} =
-              Repo.transaction fn ->
-                case Repo.one(Ecto.Query.from f in CFile, where: f.sha256 == ^sha256, limit: 1) do
+              Repo.transaction(fn ->
+                case Repo.one(Ecto.Query.from(f in CFile, where: f.sha256 == ^sha256, limit: 1)) do
                   nil -> %CFile{}
                   value -> value
                 end
@@ -72,16 +77,17 @@ defmodule Cyclosa do
                   ctime: ctime,
                   mtime: mtime
                 })
-                |> Repo.insert_or_update!
-              end
+                |> Repo.insert_or_update!()
+              end)
+
             result
         end)
 
-      if files |> Enum.count > 0 do
+      if files |> Enum.count() > 0 do
         assemblage
         |> Ecto.Changeset.change()
         |> Ecto.Changeset.put_assoc(:files, files ++ assemblage.files)
-        |> Repo.update!
+        |> Repo.update!()
       end
 
       deeper_files =
@@ -101,32 +107,36 @@ defmodule Cyclosa do
     |> Enum.map(fn path ->
       stat =
         case File.stat(path) do
-          {:ok, value} -> value
+          {:ok, value} ->
+            value
+
           {:error, error} ->
             raise "Error! #{path} #{error}"
         end
 
-      {path, %{
-        fstype: stat.type,
-        size: stat.size,
-        atime: NaiveDateTime.from_erl!(stat.atime),
-        ctime: NaiveDateTime.from_erl!(stat.ctime),
-        mtime: NaiveDateTime.from_erl!(stat.mtime)
-      }}
+      {path,
+       %{
+         fstype: stat.type,
+         size: stat.size,
+         atime: NaiveDateTime.from_erl!(stat.atime),
+         ctime: NaiveDateTime.from_erl!(stat.ctime),
+         mtime: NaiveDateTime.from_erl!(stat.mtime)
+       }}
     end)
   end
 
   defp file_sha256(path) do
     File.stream!(path, [], @kbytes * 1024)
     |> Enum.reduce(:crypto.hash_init(:sha256), &:crypto.hash_update(&2, &1))
-    |> :crypto.hash_final
+    |> :crypto.hash_final()
   end
 
   defp select_interesting_files(files) do
     files
-    |> Enum.filter(fn {path, %{mime: mime}} ->
-      Path.basename(path) != ".DS_Store" && #&& MapSet.member?(@mimes, mime)
-      !Repo.one(Ecto.Query.from f in CFile, where: f.path == ^path, limit: 1)
+    |> Enum.filter(fn {path, %{mime: _mime}} ->
+      # && MapSet.member?(@mimes, _mime)
+      Path.basename(path) != ".DS_Store" &&
+        !Repo.one(Ecto.Query.from(f in CFile, where: f.path == ^path, limit: 1))
     end)
   end
 end

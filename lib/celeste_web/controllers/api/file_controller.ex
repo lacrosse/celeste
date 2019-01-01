@@ -1,7 +1,8 @@
 defmodule CelesteWeb.API.FileController do
   use Celeste.Web, :controller
 
-  alias Celeste.{Repo, User, Borkfm}
+  alias Celeste.{Repo, User}
+  alias Celeste.Social.Borkfm
 
   def show(conn, %{"id" => jwt}) do
     with {:ok, %{"sub" => sub, "u" => user_id}} <- Guardian.decode_and_verify(jwt),
@@ -9,7 +10,10 @@ defmodule CelesteWeb.API.FileController do
       conn =
         conn
         |> put_resp_header("content-type", file.mime)
-        |> put_resp_header("content-disposition", ~s|inline; filename="#{Celeste.File.public_filename(file)}"|)
+        |> put_resp_header(
+          "content-disposition",
+          ~s|inline; filename="#{Celeste.Content.File.public_filename(file)}"|
+        )
 
       path = file.path
 
@@ -29,11 +33,14 @@ defmodule CelesteWeb.API.FileController do
               conn
               |> put_resp_header("content-range", "bytes #{offset}-#{file.size - 1}/#{file.size}")
               |> send_file(206, path, offset, file.size - offset)
+
             _ ->
               bork(file, user_id)
+
               conn
               |> send_file(200, path)
           end
+
         _ ->
           conn
           |> send_file(200, path)

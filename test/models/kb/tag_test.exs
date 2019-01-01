@@ -1,7 +1,7 @@
-defmodule Celeste.TagTest do
+defmodule Celeste.KB.TagTest do
   use Celeste.ModelCase
 
-  alias Celeste.Tag
+  alias Celeste.KB.Tag
 
   @valid_attrs %{key: "some content", value: "some content"}
   @invalid_attrs %{}

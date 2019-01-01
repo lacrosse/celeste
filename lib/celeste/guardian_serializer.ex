@@ -2,7 +2,7 @@ defmodule Celeste.GuardianSerializer do
   @behaviour Guardian.Serializer
 
   alias Celeste.{Repo, User}
-  alias Celeste.File, as: CFile
+  alias Celeste.Content.File, as: CFile
 
   def for_token(%User{id: id}), do: {:ok, "u:#{id}"}
   def for_token(%CFile{id: id}), do: {:ok, "f:#{id}"}

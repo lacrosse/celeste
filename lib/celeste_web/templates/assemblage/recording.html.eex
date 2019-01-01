@@ -1,4 +1,4 @@
-<%= for composition <- Celeste.Assemblage.parent_assemblages_of_kind(@assemblage, "recorded", "composition") |> Celeste.Repo.all do %>
+<%= for composition <- Celeste.KB.Assemblage.parent_assemblages_of_kind(@assemblage, "recorded", "composition") |> Celeste.Repo.all do %>
   <h1><%= full_assemblage_name(@conn, composition, link: true) %></h1>
   <h3><%= composed_by(@conn, composition) %></h3>
 <% end %>

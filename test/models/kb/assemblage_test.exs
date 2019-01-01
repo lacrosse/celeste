@@ -1,7 +1,7 @@
-defmodule Celeste.AssemblageTest do
+defmodule Celeste.KB.AssemblageTest do
   use Celeste.ModelCase
 
-  alias Celeste.Assemblage
+  alias Celeste.KB.Assemblage
 
   @valid_attrs %{name: "some content"}
   @invalid_attrs %{}

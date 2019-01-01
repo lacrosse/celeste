@@ -1,7 +1,7 @@
-defmodule Celeste.FileTest do
+defmodule Celeste.Content.FileTest do
   use Celeste.ModelCase
 
-  alias Celeste.File
+  alias Celeste.Content.File
 
   @valid_attrs %{mime: "some content", path: "some content", sha256: "some content"}
   @invalid_attrs %{}
