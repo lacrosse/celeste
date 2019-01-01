@@ -1,7 +1,0 @@
-<%= with assemblage = @conn.assigns[:assemblage] do %>
-<div>
-  <%= if assemblage.id, do: link("Edit", to: assemblage_path(@conn, :edit, assemblage.id)) %>
-</div>
-
-<%= render @view_module, "#{assemblage.kind}.html", conn: @conn, assemblage: assemblage %>
-<% end %>

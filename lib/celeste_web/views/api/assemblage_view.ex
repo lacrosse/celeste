@@ -83,7 +83,7 @@ defmodule CelesteWeb.API.AssemblageView do
     }
   end
 
-  defp render_partial(%Celeste.Assembly{} = assembly, _) do
+  defp render_partial(%Celeste.KB.Assembly{} = assembly, _) do
     %{
       assemblage_id: assembly.assemblage_id,
       child_assemblage_id: assembly.child_assemblage_id,

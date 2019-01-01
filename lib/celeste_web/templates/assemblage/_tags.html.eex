@@ -1,7 +1,0 @@
-<%= if @tags do %>
-  <small>
-    <%= for tag <- @tags do %>
-      <span class="label label-info"><%= tag.value %></span>
-    <% end %>
-  </small>
-<% end %>

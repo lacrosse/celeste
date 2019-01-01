@@ -1,7 +1,7 @@
 defmodule Celeste.KB.Assemblage do
   use Celeste.Web, :model
 
-  alias Celeste.{Tag, Assembly}
+  alias Celeste.KB.{Tag, Assembly}
   alias Celeste.Content.File, as: CFile
 
   schema "assemblages" do

@@ -1,4 +1,4 @@
-defmodule Celeste.Assembly do
+defmodule Celeste.KB.Assembly do
   use Celeste.Web, :model
 
   alias Celeste.KB.Assemblage

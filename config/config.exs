@@ -8,11 +8,9 @@ config :celeste, CelesteWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "zA/x5XOGXIXQFxlemUvFZevjakIUF/1DceVD7YBWTUxRdDC1ZCEUVfkCPyCaU9tv",
   render_errors: [view: Celeste.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Celeste.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Celeste.PubSub, adapter: Phoenix.PubSub.PG2]
 
-config :celeste, Celeste.Social.Borkfm,
-  api_key: ""
+config :celeste, Celeste.Social.Borkfm, api_key: ""
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -21,9 +19,9 @@ config :logger, :console,
 config :guardian, Guardian,
   allowed_algos: ["HS512"],
   issuer: "Celeste",
-  ttl: { 30, :days },
+  ttl: {30, :days},
   allowed_drift: 2000,
   verify_issuer: true,
   serializer: Celeste.GuardianSerializer
 
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"
