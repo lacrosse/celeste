@@ -9,6 +9,8 @@ config :celeste, CelesteWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :guardian, Guardian, secret_key: "secretkey"
+
 # Configure your database
 config :celeste, Celeste.Repo,
   adapter: Ecto.Adapters.Postgres,

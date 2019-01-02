@@ -1,5 +1,5 @@
 defmodule CelesteWeb.API.SessionController do
-  use Celeste.Web, :controller
+  use CelesteWeb, :controller
 
   alias Celeste.Social.User
 

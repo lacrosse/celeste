@@ -1,10 +1,10 @@
 defmodule Celeste.KB.Tag do
-  use Celeste.Web, :model
+  use CelesteWeb, :model
 
   schema "tags" do
-    field :key, :string
-    field :value, :string
-    belongs_to :assemblage, Celeste.KB.Assemblage
+    field(:key, :string)
+    field(:value, :string)
+    belongs_to(:assemblage, Celeste.KB.Assemblage)
 
     timestamps()
   end

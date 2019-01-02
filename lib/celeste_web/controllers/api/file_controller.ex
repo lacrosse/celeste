@@ -1,5 +1,5 @@
 defmodule CelesteWeb.API.FileController do
-  use Celeste.Web, :controller
+  use CelesteWeb, :controller
 
   alias Celeste.{Repo, User}
   alias Celeste.Social.Borkfm

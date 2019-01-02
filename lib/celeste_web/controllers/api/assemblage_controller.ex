@@ -1,5 +1,5 @@
 defmodule CelesteWeb.API.AssemblageController do
-  use Celeste.Web, :controller
+  use CelesteWeb, :controller
 
   alias Celeste.Repo
   alias Celeste.KB.Assemblage
@@ -19,8 +19,7 @@ defmodule CelesteWeb.API.AssemblageController do
   end
 
   def composers(conn, _) do
-    assemblages =
-      Repo.all(Assemblage.composers_query())
+    assemblages = Repo.all(Assemblage.composers_query())
 
     conn
     |> render("index.json", assemblages: assemblages)

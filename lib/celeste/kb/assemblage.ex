@@ -1,5 +1,5 @@
 defmodule Celeste.KB.Assemblage do
-  use Celeste.Web, :model
+  use CelesteWeb, :model
 
   alias Celeste.KB.{Tag, Assembly}
   alias Celeste.Content.File, as: CFile

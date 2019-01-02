@@ -3,7 +3,7 @@ defmodule Celeste.KB.TagTest do
 
   alias Celeste.KB.Tag
 
-  @valid_attrs %{key: "some content", value: "some content"}
+  @valid_attrs %{key: "some content", value: "some content", assemblage_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

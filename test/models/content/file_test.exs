@@ -3,7 +3,16 @@ defmodule Celeste.Content.FileTest do
 
   alias Celeste.Content.File
 
-  @valid_attrs %{mime: "some content", path: "some content", sha256: "some content"}
+  @valid_attrs %{
+    mime: "some content",
+    path: "some content",
+    sha256: "some content",
+    size: 12,
+    seen_at: DateTime.utc_now(),
+    atime: DateTime.utc_now(),
+    ctime: DateTime.utc_now(),
+    mtime: DateTime.utc_now()
+  }
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

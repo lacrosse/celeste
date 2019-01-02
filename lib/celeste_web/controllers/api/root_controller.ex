@@ -1,5 +1,5 @@
 defmodule CelesteWeb.API.RootController do
-  use Celeste.Web, :controller
+  use CelesteWeb, :controller
 
   def ping(conn, _) do
     conn

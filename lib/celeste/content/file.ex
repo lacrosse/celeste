@@ -1,5 +1,5 @@
 defmodule Celeste.Content.File do
-  use Celeste.Web, :model
+  use CelesteWeb, :model
 
   schema "files" do
     many_to_many(:assemblages, Celeste.KB.Assemblage, join_through: "assemblages_files")

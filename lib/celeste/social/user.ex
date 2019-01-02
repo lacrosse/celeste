@@ -1,5 +1,5 @@
 defmodule Celeste.Social.User do
-  use Celeste.Web, :model
+  use CelesteWeb, :model
 
   import Comeonin.Bcrypt, only: [hashpwsalt: 1, checkpw: 2, dummy_checkpw: 0]
 

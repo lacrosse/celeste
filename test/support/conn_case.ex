@@ -39,6 +39,25 @@ defmodule CelesteWeb.ConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(Celeste.Repo, {:shared, self()})
     end
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    conn = Phoenix.ConnTest.build_conn()
+
+    {conn, user} =
+      if tags[:auth] do
+        user =
+          %Celeste.Social.User{}
+          |> Celeste.Social.User.create_changeset(%{username: "test", password: "testtest"})
+          |> Celeste.Repo.insert!()
+
+        {
+          conn
+          |> Plug.Test.init_test_session(%{})
+          |> Guardian.Plug.api_sign_in(user),
+          user
+        }
+      else
+        {conn, nil}
+      end
+
+    {:ok, conn: conn, user: user}
   end
 end

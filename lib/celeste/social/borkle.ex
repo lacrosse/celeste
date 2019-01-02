@@ -1,5 +1,5 @@
 defmodule Celeste.Social.Borkle do
-  use Celeste.Web, :model
+  use CelesteWeb, :model
 
   @primary_key false
 
